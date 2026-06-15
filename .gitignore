@@ -44,3 +44,4 @@ json/
 node_modules/
 check_*.py
 check_*.mjs
+.pnpm-store

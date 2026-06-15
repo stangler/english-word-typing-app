@@ -90,13 +90,46 @@
   }
   .lesson-card:hover{transform:translateY(-2px);box-shadow:0 6px 14px var(--shadow);}
   .lesson-card:active{transform:translateY(0);}
-  .lesson-card[data-lesson="1"]{--accent:var(--blue);}
-  .lesson-card[data-lesson="2"]{--accent:var(--green);}
-  .lesson-card[data-lesson="3"]{--accent:var(--gold);}
   .lesson-card[data-lesson="elementary"]{--accent:var(--ink-soft);}
   .lesson-card[data-lesson="all"]{--accent:var(--red);grid-column:1 / -1;}
+  .lesson-card[data-lesson]:not([data-lesson="elementary"]):not([data-lesson="all"]){
+    --accent:hsl(var(--hue,200),60%,50%);
+  }
   .lesson-no{display:block;font-weight:900;font-size:1.15rem;}
   .lesson-count{display:block;color:var(--ink-soft);font-size:.88rem;margin-top:4px;}
+
+  /* ---- elementary category panel ---- */
+  .category-panel{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:0 2px 8px var(--shadow);
+    padding:16px 18px;
+    margin-bottom:20px;
+    animation:fadeIn .2s ease;
+  }
+  .category-panel[hidden]{display:none;}
+  .category-panel p{font-size:.88rem;font-weight:700;margin:0 0 10px;color:var(--ink-soft);}
+  .category-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(100px,1fr));
+    gap:8px;
+  }
+  .category-btn{
+    font-family:inherit;
+    font-size:.85rem;font-weight:700;
+    padding:8px 10px;
+    border:2px solid var(--line);
+    border-radius:8px;
+    background:var(--card);
+    color:var(--ink);
+    cursor:pointer;
+    transition:transform .1s ease, border-color .1s ease, background .1s ease;
+    text-align:center;
+  }
+  .category-btn:hover{transform:translateY(-1px);border-color:var(--ink-soft);}
+  .category-btn:active{transform:translateY(0);}
+  .category-btn.cat-all{--accent:var(--red);border-color:var(--red);color:var(--red);}
+  .category-btn.cat-all:hover{background:var(--red);color:#fff;}
 
   .shuffle-toggle{
     display:flex;align-items:center;gap:8px;
@@ -188,8 +221,10 @@
 
   /* ---------- result screen ---------- */
   .result-score{text-align:center;margin-bottom:20px;}
-  #result-fraction{font-size:2.1rem;font-weight:900;margin:0;}
-  #result-message{color:var(--ink-soft);margin:8px 0 0;}
+  .result-pct{font-size:3.2rem;font-weight:900;margin:0;line-height:1.2;color:var(--ink);}
+  .result-pct .pct-num{font-size:4.8rem;}
+  #result-fraction{font-size:1.05rem;font-weight:700;margin:6px 0 0;color:var(--ink-soft);}
+  #result-message{color:var(--ink-soft);margin:12px 0 0;}
 
   .wrong-list{padding:6px 22px;margin-bottom:20px;}
   .wrong-list h2{font-size:.95rem;margin:8px 0 4px;}
@@ -231,28 +266,14 @@
       <h1 class="title">英単語タイピング確認テスト</h1>
       <p class="lead">日本語の意味を見て、対応する英単語・熟語をタイピングしよう。レッスンを選んでスタート！</p>
 
-      <div class="lesson-grid" id="lesson-grid">
-        <button class="lesson-card" data-lesson="1">
-          <span class="lesson-no">Lesson 1</span>
-          <span class="lesson-count" data-count-for="1"></span>
-        </button>
-        <button class="lesson-card" data-lesson="2">
-          <span class="lesson-no">Lesson 2</span>
-          <span class="lesson-count" data-count-for="2"></span>
-        </button>
-        <button class="lesson-card" data-lesson="3">
-          <span class="lesson-no">Lesson 3</span>
-          <span class="lesson-count" data-count-for="3"></span>
-        </button>
-        <button class="lesson-card" data-lesson="elementary">
-          <span class="lesson-no">小学校</span>
-          <span class="lesson-count" data-count-for="elementary"></span>
-        </button>
-        <button class="lesson-card" data-lesson="all">
-          <span class="lesson-no">全レッスン（Lesson 1〜3 + 小学校）</span>
-          <span class="lesson-count" data-count-for="all"></span>
-        </button>
+      <div class="lesson-grid" id="lesson-grid"></div>
+
+      <div id="elementary-categories" class="category-panel" hidden>
+        <p>小学校のカテゴリーを選んでください</p>
+        <div class="category-grid" id="category-grid"></div>
       </div>
+
+      <div id="all-lesson-container" class="lesson-grid" style="margin-bottom:24px;"></div>
 
       <label class="shuffle-toggle">
         <input type="checkbox" id="shuffle-check" checked>
@@ -313,6 +334,7 @@
     <section id="screen-result" class="screen" hidden>
       <h1 class="title">結果</h1>
       <div class="panel result-score">
+        <p id="result-pct" class="result-pct"></p>
         <p id="result-fraction"></p>
         <p id="result-message"></p>
       </div>
@@ -365,7 +387,8 @@ const shuffleCheck = document.getElementById('shuffle-check');
 
 let state = {};
 
-function partLabel(part){
+function partLabel(part, lesson){
+  if(lesson === 'elementary') return part;
   if(part === 'Goal Activity' || part === 'Introduction') return part;
   return 'Part ' + part;
 }
@@ -383,32 +406,120 @@ function shuffleArray(arr){
   }
 }
 
-/* ---- start screen: lesson counts ---- */
-function initCounts(){
-  const counts = {1:0,2:0,3:0};
-  let elemCount = 0;
-  WORDS.forEach(w => {
-    if(w.lesson === 'elementary') elemCount++;
-    else counts[w.lesson]++;
-  });
-  const c1 = document.querySelector('[data-count-for="1"]');
-  const c2 = document.querySelector('[data-count-for="2"]');
-  const c3 = document.querySelector('[data-count-for="3"]');
-  const ce = document.querySelector('[data-count-for="elementary"]');
-  const ca = document.querySelector('[data-count-for="all"]');
-  if(c1) c1.textContent = counts[1] + '問';
-  if(c2) c2.textContent = counts[2] + '問';
-  if(c3) c3.textContent = counts[3] + '問';
-  if(ce) ce.textContent = elemCount + '問';
-  if(ca) ca.textContent = (counts[1]+counts[2]+counts[3]+elemCount) + '問';
+/* ---- start screen: generate lesson buttons dynamically ---- */
+function getLessonList(){
+  const lessons = [...new Set(WORDS.map(w => w.lesson))];
+  const nums = lessons.filter(v => v !== 'elementary').map(Number).sort((a,b)=>a-b);
+  return {nums, hasElem: lessons.includes('elementary')};
 }
 
-document.querySelectorAll('.lesson-card').forEach(btn=>{
-  btn.addEventListener('click', ()=> startQuiz(btn.dataset.lesson));
-});
+function allLessonLabel(){
+  const {nums, hasElem} = getLessonList();
+  const str = nums.map(n => 'Lesson ' + n).join('、') + (hasElem ? ' + 小学校' : '');
+  return '全レッスン（' + str + '）';
+}
+
+/* ---- elementary category panel ---- */
+function getElementaryCategories(){
+  const parts = [...new Set(WORDS.filter(w => w.lesson === 'elementary').map(w => w.part))];
+  return parts.filter(Boolean).sort();
+}
+
+function buildElementaryCategories(){
+  const grid = document.getElementById('category-grid');
+  grid.innerHTML = '';
+  const cats = getElementaryCategories();
+  const catCounts = {};
+  WORDS.filter(w => w.lesson === 'elementary').forEach(w => {
+    catCounts[w.part] = (catCounts[w.part] || 0) + 1;
+  });
+
+  // "すべて" button
+  const allBtn = document.createElement('button');
+  allBtn.className = 'category-btn cat-all';
+  allBtn.textContent = 'すべて（' + (catCounts[cats[0]] ? Object.values(catCounts).reduce((a,b)=>a+b, 0) : 0) + '）';
+  allBtn.addEventListener('click', ()=> startQuiz('elementary'));
+  grid.appendChild(allBtn);
+
+  cats.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'category-btn';
+    btn.textContent = cat + '（' + (catCounts[cat] || 0) + '）';
+    btn.addEventListener('click', ()=> startQuiz('elementary|' + cat));
+    grid.appendChild(btn);
+  });
+}
+
+function toggleElementaryCategories(){
+  const panel = document.getElementById('elementary-categories');
+  if(panel.hidden){
+    buildElementaryCategories();
+    panel.hidden = false;
+  } else {
+    panel.hidden = true;
+  }
+}
+
+function generateLessonButtons(){
+  const grid = document.getElementById('lesson-grid');
+  grid.innerHTML = '';
+
+  const {nums, hasElem} = getLessonList();
+  const counts = {};
+  let totalCount = 0;
+  WORDS.forEach(w => { counts[w.lesson] = (counts[w.lesson] || 0) + 1; });
+
+  nums.forEach(lesson => {
+    const hue = ((lesson - 1) * 40) % 360;
+    const btn = document.createElement('button');
+    btn.className = 'lesson-card';
+    btn.dataset.lesson = lesson;
+    btn.style.setProperty('--hue', hue);
+    btn.innerHTML = '<span class="lesson-no">Lesson ' + lesson + '</span><span class="lesson-count">' + (counts[lesson] || 0) + '問</span>';
+    btn.addEventListener('click', ()=> startQuiz(String(lesson)));
+    grid.appendChild(btn);
+    totalCount += (counts[lesson] || 0);
+  });
+
+  if(hasElem){
+    const btn = document.createElement('button');
+    btn.className = 'lesson-card';
+    btn.dataset.lesson = 'elementary';
+    btn.innerHTML = '<span class="lesson-no">小学校</span><span class="lesson-count">' + (counts['elementary'] || 0) + '問／カテゴリーを選ぶ</span>';
+    btn.addEventListener('click', ()=> toggleElementaryCategories());
+    grid.appendChild(btn);
+    totalCount += (counts['elementary'] || 0);
+  }
+
+  const btnAll = document.createElement('button');
+  btnAll.className = 'lesson-card';
+  btnAll.dataset.lesson = 'all';
+  btnAll.innerHTML = '<span class="lesson-no">' + allLessonLabel() + '</span><span class="lesson-count">' + totalCount + '問</span>';
+  btnAll.addEventListener('click', ()=> startQuiz('all'));
+  const allContainer = document.getElementById('all-lesson-container');
+  allContainer.appendChild(btnAll);
+}
 
 function startQuiz(lessonFilter){
-  let pool = (lessonFilter === 'all') ? WORDS.slice() : WORDS.filter(w => String(w.lesson) === lessonFilter);
+  let pool;
+  let label;
+  const pipeIdx = lessonFilter.indexOf('|');
+  if(pipeIdx !== -1){
+    // elementary|category format
+    const lesson = lessonFilter.slice(0, pipeIdx);
+    const category = lessonFilter.slice(pipeIdx + 1);
+    pool = WORDS.filter(w => String(w.lesson) === lesson && w.part === category);
+    label = '小学校 ・ ' + category;
+  } else if(lessonFilter === 'all'){
+    pool = WORDS.slice();
+    label = allLessonLabel();
+  } else if(lessonFilter === 'elementary'){
+    pool = WORDS.filter(w => String(w.lesson) === 'elementary');
+    label = '小学校';
+  } else {
+    pool = WORDS.filter(w => String(w.lesson) === lessonFilter);
+    label = 'Lesson ' + lessonFilter;
+  }
   if(shuffleCheck.checked) shuffleArray(pool);
   state = {
     queue: pool,
@@ -417,7 +528,7 @@ function startQuiz(lessonFilter){
     wrong: [],
     answered: false,
     lessonFilter: lessonFilter,
-    lessonLabel: (lessonFilter === 'all') ? '全レッスン（Lesson 1〜3 + 小学校）' : ((lessonFilter === 'elementary') ? '小学校' : ('Lesson ' + lessonFilter))
+    lessonLabel: label
   };
   showScreen('quiz');
   renderQuestion();
@@ -434,8 +545,8 @@ function renderQuestion(){
 
   const showLessonNo = (state.lessonFilter === 'all' || state.lessonLabel === '復習');
   document.getElementById('tag-part').textContent = showLessonNo
-    ? ('Lesson ' + item.lesson + ' ・ ' + partLabel(item.part))
-    : partLabel(item.part);
+    ? ('Lesson ' + item.lesson + ' ・ ' + partLabel(item.part, item.lesson))
+    : partLabel(item.part, item.lesson);
   document.getElementById('tag-pos').textContent = POS_LABELS[item.pos] || item.pos;
   document.getElementById('prompt-ja').textContent = item.ja;
 
@@ -526,14 +637,16 @@ function escapeHtml(str){
 function showResult(){
   showScreen('result');
   const total = state.queue.length;
-  document.getElementById('result-fraction').textContent = total + '問中 ' + state.score + '問正解';
-  const pct = total ? Math.round(state.score/total*100) : 0;
+  const correct = state.score;
+  const pct = total ? Math.round(correct/total*100) : 0;
+  document.getElementById('result-pct').innerHTML = '正答率 <span class="pct-num">' + pct + '</span>%';
+  document.getElementById('result-fraction').textContent = total + '問中 ' + correct + '問正解';
   let msg;
   if(pct === 100) msg = 'パーフェクト！すべて完璧です。';
   else if(pct >= 80) msg = 'よくできました！この調子で復習しよう。';
   else if(pct >= 60) msg = 'もう少し！間違えた問題を見直そう。';
   else msg = 'まだ伸ばせるところがあるよ。間違えた問題を確認しよう。';
-  document.getElementById('result-message').textContent = '正答率 ' + pct + '%　・　' + msg;
+  document.getElementById('result-message').textContent = msg;
 
   const listEl = document.getElementById('result-wrong-list');
   const panel = document.getElementById('wrong-list-panel');
@@ -570,7 +683,7 @@ document.getElementById('btn-back-start').addEventListener('click', ()=>{
 });
 
 /* ---- Bootstrap ---- */
-initCounts();
+generateLessonButtons();
 </script>
 </body>
 </html>

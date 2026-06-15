@@ -1,10 +1,6 @@
 import xlsx from 'xlsx';
 import fs from 'fs';
-
-// --- Process Lesson1-3.xlsx ---
-const wb = xlsx.readFile('xlsx/Lesson1-3.xlsx');
-const ws = wb.Sheets[wb.SheetNames[0]];
-const data = xlsx.utils.sheet_to_json(ws);
+import path from 'path';
 
 function convertWords(data, defaultLesson = '') {
   return data.filter(row => row['英語'] && row['英語'].trim() !== '').map(row => ({
@@ -21,19 +17,37 @@ function convertWords(data, defaultLesson = '') {
   }));
 }
 
-let allWords = convertWords(data);
+// --- Process all xlsx files in xlsx/ directory ---
+let allWords = [];
 
-// --- Process 小学校.xlsx separately ---
-if (fs.existsSync('xlsx/小学校.xlsx')) {
-  const wbElem = xlsx.readFile('xlsx/小学校.xlsx');
-  const wsElem = wbElem.Sheets[wbElem.SheetNames[0]];
-  const dataElem = xlsx.utils.sheet_to_json(wsElem);
-  
-  const elemWords = convertWords(dataElem, 'elementary');
-  
-  // Merge with elementary words
-  allWords = [...allWords, ...elemWords];
+if (!fs.existsSync('xlsx')) {
+  console.error('Error: xlsx/ directory not found.');
+  process.exit(1);
 }
+
+const xlsxFiles = fs.readdirSync('xlsx').filter(f => f.endsWith('.xlsx'));
+
+if (xlsxFiles.length === 0) {
+  console.error('Error: No xlsx files found in xlsx/ directory.');
+  process.exit(1);
+}
+
+xlsxFiles.forEach(filename => {
+  const filepath = path.join('xlsx', filename);
+  const wb = xlsx.readFile(filepath);
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  const data = xlsx.utils.sheet_to_json(ws);
+
+  let words;
+  if (filename.startsWith('小学校') || filename.startsWith('elementary')) {
+    words = convertWords(data, 'elementary');
+  } else {
+    words = convertWords(data);
+  }
+
+  allWords = [...allWords, ...words];
+  console.log(`  ✓ ${filename}: ${words.length} words`);
+});
 
 // Write combined JSON to json/ folder
 if (!fs.existsSync('json')) fs.mkdirSync('json');
