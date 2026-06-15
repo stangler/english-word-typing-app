@@ -40,6 +40,7 @@ yarn-error.log*
 # build/
 
 xlsx/
+json/
 node_modules/
 check_*.py
 check_*.mjs

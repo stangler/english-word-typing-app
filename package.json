@@ -15,8 +15,12 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "packageManager": "pnpm@11.6.0",
   "bugs": {
     "url": "https://github.com/stangler/english-word-typing-app/issues"
   },
-  "homepage": "https://github.com/stangler/english-word-typing-app#readme"
+  "homepage": "https://github.com/stangler/english-word-typing-app#readme",
+  "devDependencies": {
+    "xlsx": "^0.18.5"
+  }
 }
