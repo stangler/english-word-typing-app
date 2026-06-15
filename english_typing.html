@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1-3 英単語タイピング確認テスト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f7f1e4;
+    --line:#e3d8c3;
+    --ink:#2f3b52;
+    --ink-soft:#7d869a;
+    --red:#d6473c;
+    --blue:#5c7a99;
+    --green:#6f8f6a;
+    --gold:#c99a3b;
+    --card:#fffdf8;
+    --shadow:rgba(47,59,82,0.12);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Zen Maru Gothic','Hiragino Maru Gothic ProN','Yu Gothic UI','Yu Gothic',sans-serif;
+    background-color:var(--paper);
+    background-image:repeating-linear-gradient(to bottom, transparent 0 39px, var(--line) 39px 40px);
+    color:var(--ink);
+    line-height:1.7;
+    min-height:100vh;
+  }
+  .page{max-width:720px;margin:0 auto;padding:28px 18px 64px;}
+
+  .eyebrow{
+    font-size:.8rem;
+    font-weight:700;
+    color:var(--ink-soft);
+    letter-spacing:.08em;
+    margin:0 0 18px;
+  }
+
+  /* ---------- common ---------- */
+  .screen[hidden]{display:none;}
+  h1.title{font-size:1.55rem;font-weight:900;margin:0 0 6px;}
+  p.lead{margin:0 0 26px;color:var(--ink-soft);}
+
+  .panel{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:0 4px 16px var(--shadow);
+    padding:22px;
+  }
+
+  button{font-family:inherit;}
+  .btn-primary,.btn-secondary{
+    font-weight:700;font-size:1rem;
+    padding:12px 26px;border-radius:10px;border:none;cursor:pointer;
+    transition:transform .1s ease, box-shadow .1s ease, border-color .1s ease;
+  }
+  .btn-primary{background:var(--ink);color:var(--paper);margin-top:20px;}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 10px var(--shadow);}
+  .btn-primary:active{transform:translateY(0);}
+  .btn-primary:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none;}
+  .btn-secondary{background:var(--card);color:var(--ink);border:2px solid var(--line);}
+  .btn-secondary:hover{border-color:var(--ink-soft);}
+  .btn-primary:focus-visible,.btn-secondary:focus-visible,.lesson-card:focus-visible{
+    outline:3px solid var(--blue);outline-offset:2px;
+  }
+
+  /* ---------- start screen ---------- */
+  .lesson-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-bottom:24px;
+  }
+  .lesson-card{
+    --accent:var(--ink);
+    background:var(--card);
+    border:none;
+    border-top:6px solid var(--accent);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    text-align:left;
+    cursor:pointer;
+    box-shadow:0 2px 8px var(--shadow);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .lesson-card:hover{transform:translateY(-2px);box-shadow:0 6px 14px var(--shadow);}
+  .lesson-card:active{transform:translateY(0);}
+  .lesson-card[data-lesson="1"]{--accent:var(--blue);}
+  .lesson-card[data-lesson="2"]{--accent:var(--green);}
+  .lesson-card[data-lesson="3"]{--accent:var(--gold);}
+  .lesson-card[data-lesson="elementary"]{--accent:var(--ink-soft);}
+  .lesson-card[data-lesson="all"]{--accent:var(--red);grid-column:1 / -1;}
+  .lesson-no{display:block;font-weight:900;font-size:1.15rem;}
+  .lesson-count{display:block;color:var(--ink-soft);font-size:.88rem;margin-top:4px;}
+
+  .shuffle-toggle{
+    display:flex;align-items:center;gap:8px;
+    margin-bottom:26px;color:var(--ink-soft);font-size:.95rem;
+    cursor:pointer;user-select:none;
+  }
+  .shuffle-toggle input{width:18px;height:18px;accent-color:var(--red);}
+
+  .howto h2{margin:0 0 10px;font-size:1rem;}
+  .howto ol{margin:0;padding-left:1.3em;font-size:.92rem;color:var(--ink-soft);}
+  .howto li{margin-bottom:6px;}
+  .howto li:last-child{margin-bottom:0;}
+
+
+  /* ---------- quiz screen ---------- */
+  .quiz-bar{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    margin-bottom:14px;font-size:.88rem;color:var(--ink-soft);
+  }
+  .quiz-bar .lesson-tag-label{font-weight:700;color:var(--ink);white-space:nowrap;}
+  .progress-track{flex:1 1 80px;height:8px;background:var(--line);border-radius:4px;overflow:hidden;}
+  .progress-fill{height:100%;width:0%;background:var(--gold);transition:width .3s ease;}
+  .progress-count{white-space:nowrap;}
+  .score-label{white-space:nowrap;font-weight:700;}
+  .score-correct{color:var(--green);}
+  .score-wrong{color:var(--red);margin-left:6px;}
+
+  .card{
+    position:relative;
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:0 4px 16px var(--shadow);
+    padding:26px 24px 26px 64px;
+  }
+  .card::before{
+    content:'';position:absolute;top:14px;bottom:14px;left:46px;width:2px;
+    background:var(--red);opacity:.5;
+  }
+  .ring-holes{
+    position:absolute;left:16px;top:0;bottom:0;width:14px;
+    display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;
+    padding:24px 0;
+  }
+  .ring-holes span{
+    display:block;width:13px;height:13px;border-radius:50%;
+    background:var(--paper);box-shadow:inset 0 1px 3px rgba(0,0,0,.18);
+  }
+
+  .card-tags{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+  .tag{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.76rem;font-weight:700;color:#fff;}
+  .tag-blue{background:var(--blue);}
+  .tag-green{background:var(--green);}
+
+  .prompt-label{margin:0;font-size:.78rem;color:var(--ink-soft);letter-spacing:.06em;}
+  .prompt-ja{margin:8px 0 26px;font-size:1.65rem;font-weight:700;line-height:1.55;min-height:2.2em;}
+
+  .answer-row{position:relative;}
+  #answer-input{
+    width:100%;
+    font-family:'JetBrains Mono','Consolas','Courier New',monospace;
+    font-size:1.25rem;
+    padding:10px 4px;
+    border:none;border-bottom:3px solid var(--ink-soft);
+    background:transparent;color:var(--ink);outline:none;
+    transition:border-color .15s;
+  }
+  #answer-input:focus{border-color:var(--blue);}
+  #answer-input.correct{border-color:var(--green);}
+  #answer-input.incorrect{border-color:var(--red);}
+  #answer-input:read-only{color:var(--ink-soft);}
+
+  .mark{
+    position:absolute;top:6px;right:0;width:84px;height:84px;
+    pointer-events:none;opacity:0;transition:opacity .05s;
+  }
+  .mark.show{opacity:.92;}
+  .mark path{fill:none;stroke:var(--red);stroke-width:8;stroke-linecap:round;stroke-linejoin:round;}
+
+  .feedback{margin-top:20px;padding-top:16px;border-top:1px dashed var(--line);animation:fadeIn .25s ease;}
+  .feedback p{margin:0 0 6px;}
+  .feedback-answer{font-weight:700;}
+  .feedback-answer .ans{font-family:'JetBrains Mono','Consolas',monospace;color:var(--blue);font-weight:700;}
+  .feedback-ex-en{font-family:'JetBrains Mono','Consolas',monospace;}
+  .feedback-ex-ja{color:var(--ink-soft);font-size:.92rem;}
+  .feedback-memo{font-size:.85rem;color:var(--gold);background:rgba(201,154,59,.14);padding:8px 10px;border-radius:8px;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+
+  .quiz-actions{display:flex;justify-content:flex-end;}
+
+  /* ---------- result screen ---------- */
+  .result-score{text-align:center;margin-bottom:20px;}
+  #result-fraction{font-size:2.1rem;font-weight:900;margin:0;}
+  #result-message{color:var(--ink-soft);margin:8px 0 0;}
+
+  .wrong-list{padding:6px 22px;margin-bottom:20px;}
+  .wrong-list h2{font-size:.95rem;margin:8px 0 4px;}
+  .wrong-item{
+    display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+    padding:10px 0;border-bottom:1px solid var(--line);font-size:.95rem;
+  }
+  .wrong-item:last-child{border-bottom:none;}
+  .wrong-item .ja{color:var(--ink-soft);}
+  .wrong-item .en{font-family:'JetBrains Mono','Consolas',monospace;font-weight:700;color:var(--blue);white-space:nowrap;}
+
+  .result-actions{display:flex;flex-direction:column;gap:10px;}
+  .result-actions .btn-primary{margin-top:0;}
+
+  @media (max-width:480px){
+    .lesson-grid{grid-template-columns:1fr;}
+    .lesson-card[data-lesson="all"]{grid-column:auto;}
+    .prompt-ja{font-size:1.35rem;}
+    .card{padding:22px 18px 22px 56px;}
+    .card::before{left:40px;}
+    .ring-holes{left:12px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .mark path{transition:none !important;}
+    .feedback{animation:none !important;}
+    .lesson-card,.btn-primary,.btn-secondary{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <p class="eyebrow">NEW CROWN Lesson 1–3 ・ 期末テスト対策</p>
+
+  <main id="app">
+
+    <!-- ============ START SCREEN ============ -->
+    <section id="screen-start" class="screen">
+      <h1 class="title">英単語タイピング確認テスト</h1>
+      <p class="lead">日本語の意味を見て、対応する英単語・熟語をタイピングしよう。レッスンを選んでスタート！</p>
+
+      <div class="lesson-grid" id="lesson-grid">
+        <button class="lesson-card" data-lesson="1">
+          <span class="lesson-no">Lesson 1</span>
+          <span class="lesson-count" data-count-for="1"></span>
+        </button>
+        <button class="lesson-card" data-lesson="2">
+          <span class="lesson-no">Lesson 2</span>
+          <span class="lesson-count" data-count-for="2"></span>
+        </button>
+        <button class="lesson-card" data-lesson="3">
+          <span class="lesson-no">Lesson 3</span>
+          <span class="lesson-count" data-count-for="3"></span>
+        </button>
+        <button class="lesson-card" data-lesson="elementary">
+          <span class="lesson-no">小学校</span>
+          <span class="lesson-count" data-count-for="elementary"></span>
+        </button>
+        <button class="lesson-card" data-lesson="all">
+          <span class="lesson-no">全レッスン（Lesson 1〜3 + 小学校）</span>
+          <span class="lesson-count" data-count-for="all"></span>
+        </button>
+      </div>
+
+      <label class="shuffle-toggle">
+        <input type="checkbox" id="shuffle-check" checked>
+        出題順をシャッフルする
+      </label>
+
+      <div class="panel howto">
+        <h2>つかいかた</h2>
+        <ol>
+          <li>レッスンを選ぶとテストが始まります。</li>
+          <li>表示された「日本語の意味」に合う英単語・熟語を入力欄に入力します。</li>
+          <li><strong>Enterキー</strong>（または「こたえる」ボタン）で答え合わせをします。</li>
+          <li>もう一度 <strong>Enterキー</strong> で次の問題に進みます。</li>
+          <li>大文字・小文字、全角・半角の違いは自動で調整されるので、気にせず入力してOKです。</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ QUIZ SCREEN ============ -->
+    <section id="screen-quiz" class="screen" hidden>
+      <div class="quiz-bar">
+        <span id="quiz-lesson-label" class="lesson-tag-label"></span>
+        <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+        <span id="progress-count" class="progress-count"></span>
+        <span class="score-label"><span id="score-correct" class="score-correct"></span><span id="score-wrong" class="score-wrong"></span></span>
+      </div>
+
+      <div class="card" id="quiz-card">
+        <div class="ring-holes"><span></span><span></span><span></span></div>
+
+        <div class="card-tags">
+          <span id="tag-part" class="tag tag-blue"></span>
+          <span id="tag-pos" class="tag tag-green"></span>
+        </div>
+
+        <p class="prompt-label">日本語の意味</p>
+        <p id="prompt-ja" class="prompt-ja"></p>
+
+        <div class="answer-row">
+          <input id="answer-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="英語を入力してEnter">
+          <svg id="mark-svg" class="mark" viewBox="0 0 120 120" aria-hidden="true"><path id="mark-path" d=""></path></svg>
+        </div>
+
+        <div id="feedback" class="feedback" hidden>
+          <p class="feedback-answer">正解: <span class="ans" id="feedback-correct"></span></p>
+          <p class="feedback-ex-en" id="feedback-ex-en"></p>
+          <p class="feedback-ex-ja" id="feedback-ex-ja"></p>
+          <p class="feedback-memo" id="feedback-memo" hidden></p>
+        </div>
+
+        <div class="quiz-actions">
+          <button id="action-btn" class="btn-primary">こたえる</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESULT SCREEN ============ -->
+    <section id="screen-result" class="screen" hidden>
+      <h1 class="title">結果</h1>
+      <div class="panel result-score">
+        <p id="result-fraction"></p>
+        <p id="result-message"></p>
+      </div>
+
+      <div class="panel wrong-list" id="wrong-list-panel">
+        <h2>もう一度確認しよう</h2>
+        <div id="result-wrong-list"></div>
+      </div>
+
+      <div class="result-actions">
+        <button id="btn-retry-wrong" class="btn-primary">間違えた問題だけもう一度</button>
+        <button id="btn-retry-all" class="btn-secondary">もう一度すべて挑戦する</button>
+        <button id="btn-back-start" class="btn-secondary">レッスン選択に戻る</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="json/words-data.js"></script>
+<script>
+/* ============================================================
+   Words data – loaded from json/words-data.js
+============================================================ */
+const WORDS = window.WORDS || [];
+
+const POS_LABELS = {
+  '名':'名詞','動':'動詞','形':'形容詞','副':'副詞','句':'連語・熟語',
+  '短':'短縮形','前':'前置詞','代':'代名詞','否':'否定形'
+};
+
+const CIRCLE_PATH = "M 70 18 C 38 12, 14 32, 14 60 C 14 90, 40 102, 68 100 C 100 98, 106 64, 92 38 C 84 24, 76 19, 70 18";
+const CROSS_PATH  = "M 18 18 L 102 102 M 100 18 L 16 102";
+
+const screens = {
+  start: document.getElementById('screen-start'),
+  quiz: document.getElementById('screen-quiz'),
+  result: document.getElementById('screen-result'),
+};
+function showScreen(name){
+  for(const k in screens) screens[k].hidden = (k !== name);
+}
+
+const inputEl = document.getElementById('answer-input');
+const actionBtn = document.getElementById('action-btn');
+const feedbackEl = document.getElementById('feedback');
+const markSvg = document.getElementById('mark-svg');
+const markPath = document.getElementById('mark-path');
+const shuffleCheck = document.getElementById('shuffle-check');
+
+let state = {};
+
+function partLabel(part){
+  if(part === 'Goal Activity' || part === 'Introduction') return part;
+  return 'Part ' + part;
+}
+
+function normalize(s){
+  return s.normalize('NFKC').trim().toLowerCase()
+    .replace(/[\u2019\u02BC\u00B4\u0060]/g, "'")
+    .replace(/\s+/g,' ');
+}
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+}
+
+/* ---- start screen: lesson counts ---- */
+function initCounts(){
+  const counts = {1:0,2:0,3:0};
+  let elemCount = 0;
+  WORDS.forEach(w => {
+    if(w.lesson === 'elementary') elemCount++;
+    else counts[w.lesson]++;
+  });
+  const c1 = document.querySelector('[data-count-for="1"]');
+  const c2 = document.querySelector('[data-count-for="2"]');
+  const c3 = document.querySelector('[data-count-for="3"]');
+  const ce = document.querySelector('[data-count-for="elementary"]');
+  const ca = document.querySelector('[data-count-for="all"]');
+  if(c1) c1.textContent = counts[1] + '問';
+  if(c2) c2.textContent = counts[2] + '問';
+  if(c3) c3.textContent = counts[3] + '問';
+  if(ce) ce.textContent = elemCount + '問';
+  if(ca) ca.textContent = (counts[1]+counts[2]+counts[3]+elemCount) + '問';
+}
+
+document.querySelectorAll('.lesson-card').forEach(btn=>{
+  btn.addEventListener('click', ()=> startQuiz(btn.dataset.lesson));
+});
+
+function startQuiz(lessonFilter){
+  let pool = (lessonFilter === 'all') ? WORDS.slice() : WORDS.filter(w => String(w.lesson) === lessonFilter);
+  if(shuffleCheck.checked) shuffleArray(pool);
+  state = {
+    queue: pool,
+    index: 0,
+    score: 0,
+    wrong: [],
+    answered: false,
+    lessonFilter: lessonFilter,
+    lessonLabel: (lessonFilter === 'all') ? '全レッスン（Lesson 1〜3 + 小学校）' : ((lessonFilter === 'elementary') ? '小学校' : ('Lesson ' + lessonFilter))
+  };
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const item = state.queue[state.index];
+
+  document.getElementById('quiz-lesson-label').textContent = state.lessonLabel;
+  document.getElementById('progress-fill').style.width = (state.index/state.queue.length*100) + '%';
+  document.getElementById('progress-count').textContent = (state.index+1) + ' / ' + state.queue.length;
+  document.getElementById('score-correct').textContent = '◯' + state.score;
+  document.getElementById('score-wrong').textContent = '✗' + state.wrong.length;
+
+  const showLessonNo = (state.lessonFilter === 'all' || state.lessonLabel === '復習');
+  document.getElementById('tag-part').textContent = showLessonNo
+    ? ('Lesson ' + item.lesson + ' ・ ' + partLabel(item.part))
+    : partLabel(item.part);
+  document.getElementById('tag-pos').textContent = POS_LABELS[item.pos] || item.pos;
+  document.getElementById('prompt-ja').textContent = item.ja;
+
+  inputEl.value = '';
+  inputEl.readOnly = false;
+  inputEl.classList.remove('correct','incorrect');
+  feedbackEl.hidden = true;
+  markSvg.classList.remove('show','correct','incorrect');
+  actionBtn.textContent = 'こたえる';
+  actionBtn.disabled = false;
+  state.answered = false;
+  inputEl.focus();
+}
+
+function playMark(){
+  markSvg.classList.add('show');
+  const len = markPath.getTotalLength();
+  markPath.style.transition = 'none';
+  markPath.style.strokeDasharray = len;
+  markPath.style.strokeDashoffset = len;
+  markPath.getBoundingClientRect();
+  markPath.style.transition = 'stroke-dashoffset .5s ease-out';
+  markPath.style.strokeDashoffset = '0';
+}
+
+function submitAnswer(){
+  const item = state.queue[state.index];
+  const userVal = inputEl.value;
+  const isCorrect = normalize(userVal) !== '' && normalize(userVal) === normalize(item.answer);
+
+  if(isCorrect){
+    state.score++;
+    inputEl.classList.add('correct');
+    markPath.setAttribute('d', CIRCLE_PATH);
+  } else {
+    state.wrong.push(item);
+    inputEl.classList.add('incorrect');
+    markPath.setAttribute('d', CROSS_PATH);
+  }
+  inputEl.readOnly = true;
+  playMark();
+
+  document.getElementById('feedback-correct').textContent = item.answer;
+  document.getElementById('feedback-ex-en').textContent = item.ex_en;
+  document.getElementById('feedback-ex-ja').textContent = item.ex_ja;
+  const memoEl = document.getElementById('feedback-memo');
+  if(item.memo){
+    memoEl.textContent = '💡 ' + item.memo;
+    memoEl.hidden = false;
+  } else {
+    memoEl.hidden = true;
+  }
+  feedbackEl.hidden = false;
+
+  document.getElementById('score-correct').textContent = '◯' + state.score;
+  document.getElementById('score-wrong').textContent = '✗' + state.wrong.length;
+
+  actionBtn.textContent = (state.index+1 < state.queue.length) ? 'つぎへ' : '結果を見る';
+  state.answered = true;
+}
+
+function nextQuestion(){
+  state.index++;
+  if(state.index >= state.queue.length){
+    document.getElementById('progress-fill').style.width = '100%';
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+actionBtn.addEventListener('click', ()=>{
+  if(!state.answered) submitAnswer(); else nextQuestion();
+});
+inputEl.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter'){
+    e.preventDefault();
+    if(!state.answered) submitAnswer(); else nextQuestion();
+  }
+});
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function showResult(){
+  showScreen('result');
+  const total = state.queue.length;
+  document.getElementById('result-fraction').textContent = total + '問中 ' + state.score + '問正解';
+  const pct = total ? Math.round(state.score/total*100) : 0;
+  let msg;
+  if(pct === 100) msg = 'パーフェクト！すべて完璧です。';
+  else if(pct >= 80) msg = 'よくできました！この調子で復習しよう。';
+  else if(pct >= 60) msg = 'もう少し！間違えた問題を見直そう。';
+  else msg = 'まだ伸ばせるところがあるよ。間違えた問題を確認しよう。';
+  document.getElementById('result-message').textContent = '正答率 ' + pct + '%　・　' + msg;
+
+  const listEl = document.getElementById('result-wrong-list');
+  const panel = document.getElementById('wrong-list-panel');
+  listEl.innerHTML = '';
+  if(state.wrong.length === 0){
+    panel.hidden = true;
+  } else {
+    panel.hidden = false;
+    state.wrong.forEach(item=>{
+      const div = document.createElement('div');
+      div.className = 'wrong-item';
+      div.innerHTML = '<span class="ja">'+escapeHtml(item.ja)+'</span><span class="en">'+escapeHtml(item.answer)+'</span>';
+      listEl.appendChild(div);
+    });
+  }
+  document.getElementById('btn-retry-wrong').hidden = (state.wrong.length === 0);
+}
+
+document.getElementById('btn-retry-wrong').addEventListener('click', ()=>{
+  let pool = state.wrong.slice();
+  if(shuffleCheck.checked) shuffleArray(pool);
+  state = {
+    queue: pool, index:0, score:0, wrong:[], answered:false,
+    lessonFilter: state.lessonFilter, lessonLabel: '復習'
+  };
+  showScreen('quiz');
+  renderQuestion();
+});
+document.getElementById('btn-retry-all').addEventListener('click', ()=>{
+  startQuiz(state.lessonFilter);
+});
+document.getElementById('btn-back-start').addEventListener('click', ()=>{
+  showScreen('start');
+});
+
+/* ---- Bootstrap ---- */
+initCounts();
+</script>
+</body>
+</html>
