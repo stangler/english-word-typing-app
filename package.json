@@ -1,0 +1,22 @@
+{
+  "name": "english-word-typing-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stangler/english-word-typing-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/stangler/english-word-typing-app/issues"
+  },
+  "homepage": "https://github.com/stangler/english-word-typing-app#readme"
+}
