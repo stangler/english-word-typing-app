@@ -32,7 +32,7 @@ pnpm install
 
 ### 単語データの更新
 
-`xlsx/` フォルダに以下のExcelファイルを配置した後、`npm run build` でJSONデータを再生成します。
+`xlsx/` フォルダに以下のExcelファイルを配置した後、`pnpm run build` でJSONデータを再生成します。
 
 必要なExcelファイル:
 | ファイル | 内容 |
@@ -41,7 +41,7 @@ pnpm install
 | `xlsx/小学校.xlsx` | 小学校の基本英単語（任意） |
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 ## 注意事項
