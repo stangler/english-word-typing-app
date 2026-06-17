@@ -1,6 +1,6 @@
 # 英単語タイピング確認テスト
 
-NEW CROWN Lesson 1〜3 + 小学校 の単語を対象としたタイピング練習アプリです。
+NEW CROWN Lesson 1〜3 + 小学校 + 曜日・月・日にち の単語を対象としたタイピング練習アプリです。
 
 ブラウザだけで動作するので、サーバーを用意する必要はありません。
 
@@ -38,8 +38,13 @@ pnpm install
 必要なExcelファイル:
 | ファイル | 内容 |
 |---|---|
-| `xlsx/Lesson1-3.xlsx` | NEW CROWN Lesson 1〜3 の単語データ |
+| `xlsx/Lesson1.xlsx` | NEW CROWN Lesson 1 の単語データ |
+| `xlsx/Lesson2.xlsx` | NEW CROWN Lesson 2 の単語データ |
+| `xlsx/Lesson3.xlsx` | NEW CROWN Lesson 3 の単語データ |
 | `xlsx/小学校.xlsx` | 小学校の基本英単語（任意） |
+| `xlsx/曜日.xlsx` | 曜日の単語（任意） |
+| `xlsx/月.xlsx` | 月の単語（任意） |
+| `xlsx/日にち.xlsx` | 日にち（first〜fourth）の単語（任意） |
 
 ```bash
 pnpm run build
@@ -73,11 +78,17 @@ pnpm run build
 | `json/lesson2.json` | Lesson 2 のみのデータ |
 | `json/lesson3.json` | Lesson 3 のみのデータ |
 | `json/lesson-elementary.json` | 小学校のみのデータ |
+| `json/lesson曜日.json` | 曜日のみのデータ |
+| `json/lesson月.json` | 月のみのデータ |
+| `json/lesson日にち.json` | 日にちのみのデータ |
 
 ## 対象単語
 
 - Lesson 1〜3（NEW CROWN）
 - 小学校で習う基本英単語
+- 曜日（Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday）
+- 月（April, May, June, July）
+- 日にち（first, second, third, fourth）
 
 ## 技術
 

@@ -409,13 +409,17 @@ function shuffleArray(arr){
 /* ---- start screen: generate lesson buttons dynamically ---- */
 function getLessonList(){
   const lessons = [...new Set(WORDS.map(w => w.lesson))];
-  const nums = lessons.filter(v => v !== 'elementary').map(Number).sort((a,b)=>a-b);
-  return {nums, hasElem: lessons.includes('elementary')};
+  const specials = ['elementary'];
+  const nums = lessons.filter(v => !specials.includes(v) && !isNaN(Number(v))).map(Number).sort((a,b)=>a-b);
+  const strLessons = lessons.filter(v => !specials.includes(v) && isNaN(Number(v)) && v !== '').sort();
+  return {nums, hasElem: lessons.includes('elementary'), strLessons};
 }
 
 function allLessonLabel(){
-  const {nums, hasElem} = getLessonList();
-  const str = nums.map(n => 'Lesson ' + n).join('、') + (hasElem ? ' + 小学校' : '');
+  const {nums, hasElem, strLessons} = getLessonList();
+  const parts = nums.map(n => 'Lesson ' + n);
+  strLessons.forEach(s => parts.push(s));
+  const str = parts.join('、') + (hasElem ? ' + 小学校' : '');
   return '全レッスン（' + str + '）';
 }
 
@@ -464,7 +468,7 @@ function generateLessonButtons(){
   const grid = document.getElementById('lesson-grid');
   grid.innerHTML = '';
 
-  const {nums, hasElem} = getLessonList();
+  const {nums, hasElem, strLessons} = getLessonList();
   const counts = {};
   let totalCount = 0;
   WORDS.forEach(w => { counts[w.lesson] = (counts[w.lesson] || 0) + 1; });
@@ -491,6 +495,18 @@ function generateLessonButtons(){
     totalCount += (counts['elementary'] || 0);
   }
 
+  strLessons.forEach(lesson => {
+    const hue = ((strLessons.indexOf(lesson) + nums.length) * 40) % 360;
+    const btn = document.createElement('button');
+    btn.className = 'lesson-card';
+    btn.dataset.lesson = lesson;
+    btn.style.setProperty('--hue', hue);
+    btn.innerHTML = '<span class="lesson-no">' + lesson + '</span><span class="lesson-count">' + (counts[lesson] || 0) + '問</span>';
+    btn.addEventListener('click', ()=> startQuiz(lesson));
+    grid.appendChild(btn);
+    totalCount += (counts[lesson] || 0);
+  });
+
   const btnAll = document.createElement('button');
   btnAll.className = 'lesson-card';
   btnAll.dataset.lesson = 'all';
@@ -516,6 +532,9 @@ function startQuiz(lessonFilter){
   } else if(lessonFilter === 'elementary'){
     pool = WORDS.filter(w => String(w.lesson) === 'elementary');
     label = '小学校';
+  } else if(isNaN(Number(lessonFilter))){
+    pool = WORDS.filter(w => String(w.lesson) === lessonFilter);
+    label = lessonFilter;
   } else {
     pool = WORDS.filter(w => String(w.lesson) === lessonFilter);
     label = 'Lesson ' + lessonFilter;
@@ -544,8 +563,9 @@ function renderQuestion(){
   document.getElementById('score-wrong').textContent = '✗' + state.wrong.length;
 
   const showLessonNo = (state.lessonFilter === 'all' || state.lessonLabel === '復習');
+  const lessonNum = isNaN(Number(item.lesson)) ? item.lesson : 'Lesson ' + item.lesson;
   document.getElementById('tag-part').textContent = showLessonNo
-    ? ('Lesson ' + item.lesson + ' ・ ' + partLabel(item.part, item.lesson))
+    ? (lessonNum + ' ・ ' + partLabel(item.part, item.lesson))
     : partLabel(item.part, item.lesson);
   document.getElementById('tag-pos').textContent = POS_LABELS[item.pos] || item.pos;
   document.getElementById('prompt-ja').textContent = item.ja;
