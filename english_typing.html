@@ -217,6 +217,42 @@
   .feedback-memo{font-size:.85rem;color:var(--gold);background:rgba(201,154,59,.14);padding:8px 10px;border-radius:8px;}
   @keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
 
+  /* ---------- history screen ---------- */
+  .history-screen{
+    margin-top:24px;
+  }
+  .history-screen h2{
+    font-size:1rem;margin:0 0 12px;
+  }
+  .history-list{
+    max-height:200px;overflow-y:auto;
+    margin-bottom:12px;
+  }
+  .history-item{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:8px 12px;border-bottom:1px solid var(--line);
+    font-size:.88rem;
+  }
+  .history-item:last-child{border-bottom:none;}
+  .history-item .date{color:var(--ink-soft);font-size:.82rem;margin-right:8px;}
+  .history-item .lesson{font-weight:700;color:var(--ink);margin-right:auto;}
+  .history-item .score{
+    display:flex;align-items:center;gap:6px;
+  }
+  .history-item .score-correct{color:var(--green);font-weight:700;}
+  .history-item .score-wrong{color:var(--red);font-weight:700;}
+  .history-item .delete-btn{
+    background:none;border:none;color:var(--ink-soft);
+    cursor:pointer;font-size:1rem;padding:2px 6px;
+    border-radius:4px;
+  }
+  .history-item .delete-btn:hover{color:var(--red);background:rgba(214,71,60,.1);}
+  .history-empty{
+    color:var(--ink-soft);font-size:.88rem;padding:12px 0;text-align:center;
+  }
+  .history-actions{display:flex;gap:8px;justify-content:flex-end;}
+  .history-actions .btn-secondary{font-size:.88rem;padding:8px 16px;}
+
   .quiz-actions{display:flex;justify-content:flex-end;}
 
   /* ---------- result screen ---------- */
@@ -289,6 +325,14 @@
           <li>もう一度 <strong>Enterキー</strong> で次の問題に進みます。</li>
           <li>大文字・小文字、全角・半角の違いは自動で調整されるので、気にせず入力してOKです。</li>
         </ol>
+      </div>
+
+      <div class="panel history-screen" id="history-screen">
+        <h2>📊 テスト履歴</h2>
+        <div id="history-list" class="history-list"></div>
+        <div class="history-actions">
+          <button id="btn-clear-history" class="btn-secondary">履歴をすべて削除</button>
+        </div>
       </div>
     </section>
 
@@ -683,6 +727,7 @@ function showResult(){
     });
   }
   document.getElementById('btn-retry-wrong').hidden = (state.wrong.length === 0);
+  saveHistory(state.lessonLabel, state.queue.length, state.score, state.wrong.length);
 }
 
 document.getElementById('btn-retry-wrong').addEventListener('click', ()=>{
@@ -702,8 +747,87 @@ document.getElementById('btn-back-start').addEventListener('click', ()=>{
   showScreen('start');
 });
 
+/* ---- History functions ---- */
+const HISTORY_KEY = 'typingHistory';
+const MAX_HISTORY = 50;
+
+function saveHistory(lessonLabel, total, correct, wrong){
+  const history = getHistory();
+  const entry = {
+    date: new Date().toISOString(),
+    lesson: lessonLabel,
+    total: total,
+    correct: correct,
+    wrong: wrong,
+    pct: total ? Math.round(correct/total*100) : 0
+  };
+  history.unshift(entry);
+  if(history.length > MAX_HISTORY) history.length = MAX_HISTORY;
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+}
+
+function getHistory(){
+  const stored = localStorage.getItem(HISTORY_KEY);
+  return stored ? JSON.parse(stored) : [];
+}
+
+function deleteHistory(index){
+  const history = getHistory();
+  history.splice(index, 1);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  renderHistory();
+}
+
+function clearHistory(){
+  localStorage.removeItem(HISTORY_KEY);
+  renderHistory();
+}
+
+function formatDate(isoString){
+  const d = new Date(isoString);
+  const month = d.getMonth() + 1;
+  const day = d.getDate();
+  const hour = d.getHours().toString().padStart(2, '0');
+  const min = d.getMinutes().toString().padStart(2, '0');
+  return `${month}/${day} ${hour}:${min}`;
+}
+
+function renderHistory(){
+  const listEl = document.getElementById('history-list');
+  const history = getHistory();
+  listEl.innerHTML = '';
+  if(history.length === 0){
+    listEl.innerHTML = '<p class="history-empty">まだ履歴がありません</p>';
+    return;
+  }
+  history.forEach((entry, index) => {
+    const div = document.createElement('div');
+    div.className = 'history-item';
+    div.innerHTML = `
+      <span class="date">${formatDate(entry.date)}</span>
+      <span class="lesson">${entry.lesson}</span>
+      <span class="score">
+        <span class="score-correct">◯${entry.correct}</span>
+        <span class="score-wrong">✗${entry.wrong}</span>
+      </span>
+      <button class="delete-btn" title="削除">×</button>
+    `;
+    div.querySelector('.delete-btn').addEventListener('click', () => {
+      if(confirm('この履歴を削除しますか？')){
+        deleteHistory(index);
+      }
+    });
+    listEl.appendChild(div);
+  });
+}
+
 /* ---- Bootstrap ---- */
 generateLessonButtons();
+renderHistory();
+document.getElementById('btn-clear-history').addEventListener('click', ()=>{
+  if(confirm('すべての履歴を削除しますか？')){
+    clearHistory();
+  }
+});
 </script>
-</body>
 </html>
