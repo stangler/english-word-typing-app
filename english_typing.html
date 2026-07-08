@@ -337,6 +337,47 @@
     color:var(--ink-soft);font-size:.8rem;margin-left:4px;white-space:nowrap;
   }
 
+  /* ---------- progress panel ---------- */
+  .progress-panel{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:0 4px 16px var(--shadow);
+    padding:16px 18px;
+    margin-bottom:20px;
+  }
+  .progress-summary{
+    margin:0 0 14px;font-size:.92rem;font-weight:700;color:var(--ink);
+  }
+  .progress-section{margin-bottom:14px;}
+  .progress-section:last-child{margin-bottom:0;}
+  .progress-section h3{
+    margin:0 0 8px;font-size:.85rem;font-weight:700;color:var(--ink-soft);
+  }
+  .progress-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+    gap:8px;
+  }
+  .progress-badge{
+    font-family:inherit;
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+    font-size:.82rem;font-weight:700;
+    padding:8px 6px;
+    border:2px solid var(--line);
+    border-radius:8px;
+    background:var(--card);
+    color:var(--ink);
+    cursor:pointer;
+    transition:transform .1s ease, border-color .1s ease, background .1s ease;
+    text-align:center;
+  }
+  .progress-badge:hover{transform:translateY(-1px);}
+  .progress-badge:active{transform:translateY(0);}
+  .progress-badge.done{border-color:var(--green);}
+  .progress-badge.todo{border-color:var(--line);color:var(--ink-soft);}
+  .progress-badge .pb-pct{color:var(--green);font-weight:900;}
+  .progress-badge .pb-status{color:var(--ink-soft);font-weight:700;font-size:.78rem;}
+
   @media (max-width:480px){
     .lesson-grid{grid-template-columns:1fr;}
     .lesson-card[data-lesson="all"]{grid-column:auto;}
@@ -367,7 +408,7 @@
       <div class="lesson-grid" id="lesson-grid"></div>
 
       <div id="elementary-categories" class="category-panel" hidden>
-        <p>小学校のカテゴリーを選んでください</p>
+        <p id="category-panel-title">小学校のカテゴリーを選んでください</p>
         <div class="category-grid" id="category-grid"></div>
       </div>
 
@@ -453,6 +494,7 @@
       <div class="result-actions">
         <button id="btn-retry-wrong" class="btn-primary">間違えた問題だけもう一度</button>
         <button id="btn-retry-all" class="btn-secondary">もう一度すべて挑戦する</button>
+        <button id="btn-view-history" class="btn-secondary">履歴を見る</button>
         <button id="btn-back-start" class="btn-secondary">レッスン選択に戻る</button>
       </div>
     </section>
@@ -463,6 +505,8 @@
         <h1>📊 テスト履歴</h1>
         <button id="btn-history-back" class="btn-secondary">戻る</button>
       </div>
+
+      <div id="progress-container" class="progress-panel"></div>
 
       <div id="charts-container"></div>
 
@@ -541,7 +585,10 @@ function getLessonList(){
     return aPart - bPart;
   });
   const strLessons = lessons.filter(v => !specials.includes(v) && !isSimpleNumber(v) && !isSplitLesson(v) && v !== '').sort();
-  return {nums, hasElem: lessons.includes('elementary'), strLessons, splitLessons};
+  const hasElem = lessons.includes('elementary');
+  // Split lessons をレッスン番号ごとにグループ化（例: "1", "2", "3"）
+  const lessonGroups = [...new Set(splitLessons.map(v => v.split('-')[0]))].sort((a,b)=>Number(a)-Number(b));
+  return {nums, hasElem, strLessons, splitLessons, lessonGroups};
 }
 
 function allLessonLabel(){
@@ -559,71 +606,120 @@ function allLessonLabel(){
   return '全レッスン（' + str + '）';
 }
 
-/* ---- elementary category panel ---- */
+/* ---- sub-selection panel (used for 小学校 categories AND Lesson1/2/3 parts) ---- */
 function getElementaryCategories(){
   const parts = [...new Set(WORDS.filter(w => w.lesson === 'elementary').map(w => w.part))];
   return parts.filter(Boolean).sort();
 }
 
-function buildElementaryCategories(){
+function buildSubPanel(kind){
   const grid = document.getElementById('category-grid');
+  const titleEl = document.getElementById('category-panel-title');
   grid.innerHTML = '';
-  const cats = getElementaryCategories();
-  const catCounts = {};
-  WORDS.filter(w => w.lesson === 'elementary').forEach(w => {
-    catCounts[w.part] = (catCounts[w.part] || 0) + 1;
-  });
 
-  // "すべて" button
-  const allBtn = document.createElement('button');
-  allBtn.className = 'category-btn cat-all';
-  allBtn.textContent = 'すべて（' + (catCounts[cats[0]] ? Object.values(catCounts).reduce((a,b)=>a+b, 0) : 0) + '）';
-  allBtn.addEventListener('click', ()=> startQuiz('elementary'));
-  grid.appendChild(allBtn);
+  if(kind === 'elementary'){
+    titleEl.textContent = '小学校のカテゴリーを選んでください';
+    const cats = getElementaryCategories();
+    const catCounts = {};
+    WORDS.filter(w => w.lesson === 'elementary').forEach(w => {
+      catCounts[w.part] = (catCounts[w.part] || 0) + 1;
+    });
 
-  cats.forEach(cat => {
-    const btn = document.createElement('button');
-    btn.className = 'category-btn';
-    btn.textContent = cat + '（' + (catCounts[cat] || 0) + '）';
-    btn.addEventListener('click', ()=> startQuiz('elementary|' + cat));
-    grid.appendChild(btn);
-  });
+    const allBtn = document.createElement('button');
+    allBtn.className = 'category-btn cat-all';
+    allBtn.textContent = 'すべて（' + Object.values(catCounts).reduce((a,b)=>a+b, 0) + '）';
+    allBtn.addEventListener('click', ()=> startQuiz('elementary'));
+    grid.appendChild(allBtn);
+
+    cats.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'category-btn';
+      btn.textContent = cat + '（' + (catCounts[cat] || 0) + '）';
+      btn.addEventListener('click', ()=> startQuiz('elementary|' + cat));
+      grid.appendChild(btn);
+    });
+  } else if(kind.startsWith('lesson:')){
+    const lessonNum = kind.split(':')[1];
+    titleEl.textContent = 'Lesson' + lessonNum + ' のパートを選んでください';
+
+    const counts = {};
+    WORDS.forEach(w => { counts[w.lesson] = (counts[w.lesson] || 0) + 1; });
+
+    const lessonKeys = [...new Set(
+      WORDS.filter(w => String(w.lesson).startsWith(lessonNum + '-')).map(w => w.lesson)
+    )].sort((a,b) => Number(a.split('-')[1]) - Number(b.split('-')[1]));
+
+    const totalCount = lessonKeys.reduce((sum,k) => sum + (counts[k] || 0), 0);
+
+    const allBtn = document.createElement('button');
+    allBtn.className = 'category-btn cat-all';
+    allBtn.textContent = 'すべて（' + totalCount + '）';
+    allBtn.addEventListener('click', ()=> startQuiz(lessonNum + '-all'));
+    grid.appendChild(allBtn);
+
+    lessonKeys.forEach(key => {
+      const btn = document.createElement('button');
+      btn.className = 'category-btn';
+      const partLabel = getSplitLessonLabel(key).replace('Lesson' + lessonNum + ' ', '');
+      btn.textContent = partLabel + '（' + (counts[key] || 0) + '）';
+      btn.addEventListener('click', ()=> startQuiz(key));
+      grid.appendChild(btn);
+    });
+  }
 }
 
-function toggleElementaryCategories(){
+function toggleSubPanel(kind){
   const panel = document.getElementById('elementary-categories');
-  if(panel.hidden){
-    buildElementaryCategories();
+  if(panel.hidden || panel.dataset.kind !== kind){
+    buildSubPanel(kind);
     panel.hidden = false;
+    panel.dataset.kind = kind;
   } else {
     panel.hidden = true;
+    panel.dataset.kind = '';
   }
+}
+
+/* ---- split lesson label helper (works for any Lesson number, based on actual Part value) ---- */
+function getSplitLessonLabel(lessonKey){
+  const lessonNum = lessonKey.split('-')[0];
+  const word = WORDS.find(w => String(w.lesson) === lessonKey);
+  const part = word ? word.part : '';
+  let partLabel;
+  if (/^\d+$/.test(part)) {
+    partLabel = 'Part' + part;
+  } else if (part === 'Goal Activity') {
+    partLabel = 'Goal Activity';
+  } else if (part) {
+    partLabel = part; // e.g. "Introduction"
+  } else {
+    partLabel = lessonKey.split('-')[1];
+  }
+  return 'Lesson' + lessonNum + ' ' + partLabel;
 }
 
 function generateLessonButtons(){
   const grid = document.getElementById('lesson-grid');
   grid.innerHTML = '';
 
-  const {nums, hasElem, strLessons, splitLessons} = getLessonList();
+  const {nums, hasElem, strLessons, splitLessons, lessonGroups} = getLessonList();
   const counts = {};
   let totalCount = 0;
   WORDS.forEach(w => { counts[w.lesson] = (counts[w.lesson] || 0) + 1; });
 
-  // First, add split lessons (1-1, 1-2, 1-3, 1-4) with "Lesson1 Part1" format
-  splitLessons.forEach(lesson => {
-    const hue = ((parseInt(lesson.split("-")[1]) - 1) * 40) % 360;
+  // Split lessons があるLessonは「小学校」と同様に1つのボタン＋パート選択パネルにまとめる
+  lessonGroups.forEach((lessonNum, i) => {
+    const hue = (i * 40) % 360;
+    const groupKeys = splitLessons.filter(k => k.split('-')[0] === lessonNum);
+    const groupCount = groupKeys.reduce((sum,k) => sum + (counts[k] || 0), 0);
     const btn = document.createElement('button');
     btn.className = 'lesson-card';
-    btn.dataset.lesson = lesson;
+    btn.dataset.lesson = lessonNum;
     btn.style.setProperty('--hue', hue);
-    // Format as "Lesson1 Part1" instead of "Lesson 1-1"
-    const lessonNum = lesson.split('-')[0];
-    const partNum = lesson.split('-')[1];
-    const displayLabel = partNum === '4' ? 'Lesson' + lessonNum + ' Activity Goal' : 'Lesson' + lessonNum + ' Part' + partNum;
-    btn.innerHTML = '<span class="lesson-no">' + displayLabel + '</span><span class="lesson-count">' + (counts[lesson] || 0) + '問</span>';
-    btn.addEventListener('click', ()=> startQuiz(lesson));
+    btn.innerHTML = '<span class="lesson-no">Lesson ' + lessonNum + '</span><span class="lesson-count">' + groupCount + '問／パートを選ぶ</span>';
+    btn.addEventListener('click', ()=> toggleSubPanel('lesson:' + lessonNum));
     grid.appendChild(btn);
-    totalCount += (counts[lesson] || 0);
+    totalCount += groupCount;
   });
 
   // Then add regular numbered lessons (2, 3, etc.)
@@ -644,13 +740,13 @@ function generateLessonButtons(){
     btn.className = 'lesson-card';
     btn.dataset.lesson = 'elementary';
     btn.innerHTML = '<span class="lesson-no">小学校</span><span class="lesson-count">' + (counts['elementary'] || 0) + '問／カテゴリーを選ぶ</span>';
-    btn.addEventListener('click', ()=> toggleElementaryCategories());
+    btn.addEventListener('click', ()=> toggleSubPanel('elementary'));
     grid.appendChild(btn);
     totalCount += (counts['elementary'] || 0);
   }
 
   strLessons.forEach(lesson => {
-    const hue = ((strLessons.indexOf(lesson) + nums.length + splitLessons.length) * 40) % 360;
+    const hue = ((strLessons.indexOf(lesson) + nums.length + lessonGroups.length) * 40) % 360;
     const btn = document.createElement('button');
     btn.className = 'lesson-card';
     btn.dataset.lesson = lesson;
@@ -686,12 +782,15 @@ function startQuiz(lessonFilter){
   } else if(lessonFilter === 'elementary'){
     pool = WORDS.filter(w => String(w.lesson) === 'elementary');
     label = '小学校';
-  } else if(/^\d+-\d+$/.test(lessonFilter)){
-    // Split lessons like "1-1", "1-2", "1-3"
-    pool = WORDS.filter(w => String(w.lesson) === lessonFilter);
+  } else if(/^\d+-all$/.test(lessonFilter)){
+    // "1-all" のようなLessonグループ全体（パート横断）
     const lessonNum = lessonFilter.split('-')[0];
-    const partNum = lessonFilter.split('-')[1];
-    label = partNum === '4' ? 'Lesson' + lessonNum + ' Activity Goal' : 'Lesson' + lessonNum + ' Part' + partNum;
+    pool = WORDS.filter(w => String(w.lesson).startsWith(lessonNum + '-'));
+    label = 'Lesson' + lessonNum + ' すべて';
+  } else if(/^\d+-\d+$/.test(lessonFilter)){
+    // Split lessons like "1-1", "2-1", "3-1"
+    pool = WORDS.filter(w => String(w.lesson) === lessonFilter);
+    label = getSplitLessonLabel(lessonFilter);
   } else if(isNaN(Number(lessonFilter))){
     pool = WORDS.filter(w => String(w.lesson) === lessonFilter);
     label = lessonFilter;
@@ -862,6 +961,9 @@ document.getElementById('btn-retry-all').addEventListener('click', ()=>{
 document.getElementById('btn-back-start').addEventListener('click', ()=>{
   showScreen('start');
 });
+document.getElementById('btn-view-history').addEventListener('click', ()=>{
+  showHistoryScreen(0); // 直前に保存された結果（先頭=最新）をハイライト表示
+});
 
 /* ---- History functions ---- */
 const HISTORY_KEY = 'typingHistory';
@@ -880,6 +982,7 @@ function saveHistory(lessonLabel, total, correct, wrong){
   history.unshift(entry);
   if(history.length > MAX_HISTORY) history.length = MAX_HISTORY;
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  renderHistory(); // スタート画面の履歴表示をリロードなしで即時更新
 }
 
 function getHistory(){
@@ -947,6 +1050,7 @@ function renderHistory(){
 function showHistoryScreen(highlightIndex){
   showScreen('history');
   const history = getHistory();
+  renderProgress(history);
   if(history.length === 0){
     document.getElementById('charts-container').innerHTML = '<p class="chart-empty">履歴がありません</p>';
     document.getElementById('history-detail-list').innerHTML = '';
@@ -954,6 +1058,114 @@ function showHistoryScreen(highlightIndex){
   }
   renderPerLessonCharts(history, highlightIndex);
   renderHistoryDetailList(history, highlightIndex);
+}
+
+/* ---- progress panel: どのレッスン/カテゴリーに着手済みかを一覧表示 ---- */
+function getProgressItems(){
+  const {nums, strLessons, lessonGroups, hasElem} = getLessonList();
+  const items = [];
+
+  lessonGroups.forEach(lessonNum => {
+    const lessonKeys = [...new Set(
+      WORDS.filter(w => String(w.lesson).startsWith(lessonNum + '-')).map(w => w.lesson)
+    )].sort((a,b) => Number(a.split('-')[1]) - Number(b.split('-')[1]));
+    lessonKeys.forEach(key => {
+      const fullLabel = getSplitLessonLabel(key);
+      items.push({
+        group: 'Lesson' + lessonNum,
+        badgeLabel: fullLabel.replace('Lesson' + lessonNum + ' ', ''),
+        matchLabels: [fullLabel, 'Lesson' + lessonNum + ' すべて'],
+        filter: key
+      });
+    });
+  });
+
+  nums.forEach(n => {
+    items.push({
+      group: 'その他のレッスン',
+      badgeLabel: 'Lesson ' + n,
+      matchLabels: ['Lesson ' + n],
+      filter: String(n)
+    });
+  });
+
+  if(hasElem){
+    getElementaryCategories().forEach(cat => {
+      items.push({
+        group: '小学校',
+        badgeLabel: cat,
+        matchLabels: ['小学校 ・ ' + cat, '小学校'],
+        filter: 'elementary|' + cat
+      });
+    });
+  }
+
+  strLessons.forEach(s => {
+    items.push({
+      group: 'その他のレッスン',
+      badgeLabel: s,
+      matchLabels: [s],
+      filter: s
+    });
+  });
+
+  return items;
+}
+
+function getItemStatus(item, history, allLabel){
+  const matches = history.filter(h => h.lesson === allLabel || item.matchLabels.includes(h.lesson));
+  if(matches.length === 0) return {done:false};
+  matches.sort((a,b) => new Date(b.date) - new Date(a.date));
+  return {done:true, latest: matches[0], count: matches.length};
+}
+
+function renderProgress(history){
+  const container = document.getElementById('progress-container');
+  container.innerHTML = '';
+  const items = getProgressItems();
+  if(items.length === 0) return;
+
+  const allLabel = allLessonLabel();
+  const statuses = items.map(it => getItemStatus(it, history, allLabel));
+  const doneCount = statuses.filter(s => s.done).length;
+
+  const summary = document.createElement('p');
+  summary.className = 'progress-summary';
+  summary.textContent = '進捗状況: ' + doneCount + ' / ' + items.length + ' 項目に着手済み';
+  container.appendChild(summary);
+
+  const groupOrder = [];
+  const groups = {};
+  items.forEach((it, i) => {
+    if(!groups[it.group]){ groups[it.group] = []; groupOrder.push(it.group); }
+    groups[it.group].push({item: it, status: statuses[i]});
+  });
+
+  groupOrder.forEach(groupName => {
+    const section = document.createElement('div');
+    section.className = 'progress-section';
+    const h = document.createElement('h3');
+    h.textContent = groupName;
+    section.appendChild(h);
+
+    const grid = document.createElement('div');
+    grid.className = 'progress-grid';
+    groups[groupName].forEach(({item, status}) => {
+      const badge = document.createElement('button');
+      badge.className = 'progress-badge ' + (status.done ? 'done' : 'todo');
+      badge.innerHTML = '<span class="pb-label">' + escapeHtml(item.badgeLabel) + '</span>' +
+        (status.done
+          ? '<span class="pb-pct">' + status.latest.pct + '%</span>'
+          : '<span class="pb-status">未着手</span>');
+      badge.title = status.done
+        ? '直近: ' + formatDate(status.latest.date) + '（' + status.count + '回挑戦）'
+        : 'まだ挑戦していません';
+      badge.addEventListener('click', () => startQuiz(item.filter));
+      grid.appendChild(badge);
+    });
+    section.appendChild(grid);
+    container.appendChild(section);
+  });
 }
 
 function renderPerLessonCharts(history, highlightIndex){

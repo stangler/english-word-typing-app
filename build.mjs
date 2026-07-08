@@ -3,27 +3,30 @@ import fs from 'fs';
 import path from 'path';
 
 function convertWords(data, defaultLesson = '') {
+  // Part列（Introduction / 1 / 2 / 3 / Goal Activity など）が出現する順番を
+  // シート内での初出順に記録しておく。defaultLessonが指定されていない
+  // （＝小学校・曜日などの語彙集ではなく、Lesson1〜3のような通常レッスン）場合のみ、
+  // このPart順にもとづいてサブレッスン（例: 2-1, 2-2, 2-3）に分割する。
+  const partOrder = [];
+  data.forEach(row => {
+    if (!row['英語'] || row['英語'].trim() === '') return;
+    const part = String(row['Part'] || row['カテゴリー'] || '');
+    if (part && !partOrder.includes(part)) partOrder.push(part);
+  });
+
   return data.filter(row => row['英語'] && row['英語'].trim() !== '').map(row => {
     let lesson = defaultLesson ? defaultLesson : (row['Lesson'] || '');
     const part = String(row['Part'] || row['カテゴリー'] || '');
-    
-// Split Lesson 1 into 4 parts:
-// - Part 1 → Lesson 1-1
-// - Part 2 → Lesson 1-2
-// - Part 3 → Lesson 1-3
-// - Goal Activity → Lesson 1-4
-if (lesson === 1 || lesson === '1') {
-  if (part === '1') {
-    lesson = '1-1';
-  } else if (part === '2') {
-    lesson = '1-2';
-  } else if (part === '3') {
-    lesson = '1-3';
-  } else if (part === 'Goal Activity') {
-    lesson = '1-4';
-  }
-}
-    
+
+    // Lesson 1・2・3 などの通常レッスンをPartの出現順でサブレッスンに分割
+    // 例: Lesson1 → 1-1, 1-2, 1-3, 1-4 / Lesson2 → 2-1, 2-2, 2-3
+    if (!defaultLesson && lesson !== '' && partOrder.length > 1) {
+      const idx = partOrder.indexOf(part);
+      if (idx !== -1) {
+        lesson = `${lesson}-${idx + 1}`;
+      }
+    }
+
     return {
       lesson: lesson,
       part: part,

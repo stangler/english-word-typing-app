@@ -15,7 +15,9 @@ NEW CROWN Lesson 1〜3 + 小学校 + 曜日・月・日にち の単語を対象
 - **シャッフル機能**: 問題の順番をランダムに並び替えて出題できます
 - **正誤記録**: セッション内の正解数・不正解数がリアルタイムに表示されます
 - **復習機能**: 終了画面で間違えた単語の一覧を確認できます
-- **カテゴリー選択**: 「小学校」を選ぶと「人」「動物」「食べ物」などのカテゴリーごとに出題できます
+- **パート／カテゴリー選択**: Lesson1〜3は「Lesson1」ボタン→「Part1」「Goal Activity」のようにパート単位で、「小学校」は「人」「動物」などカテゴリー単位で出題できます（項目数の多いカテゴリーは「その他いろいろな名詞①〜③」のように分割済み）。トップ画面のボタン数を抑えるため、パート・カテゴリーは1つのボタンをタップして開くパネルから選ぶ方式です
+- **テスト履歴**: トップ画面下部に直近の結果一覧を表示（結果はリロードなしで即時反映）。結果画面の「履歴を見る」ボタンから、レッスンごとの正答率推移グラフと全履歴の一覧を確認できます
+- **進捗状況の可視化**: 履歴画面に「進捗状況」パネルを表示し、Lesson1〜3の各パート・小学校の各カテゴリーについて「済（直近の正答率）」「未着手」が一目でわかります。バッジをタップするとその項目のクイズにすぐ挑戦できます
 
 ## 開発環境のセットアップ
 
@@ -74,9 +76,9 @@ pnpm run build
 |---|---|
 | `json/words-data.js` | 全単語データ（HTMLから直接読み込まれる） |
 | `json/words.json` | 全単語データ（JSON形式） |
-| `json/lesson1.json` | Lesson 1 のみのデータ |
-| `json/lesson2.json` | Lesson 2 のみのデータ |
-| `json/lesson3.json` | Lesson 3 のみのデータ |
+| `json/lesson1-1.json`〜`lesson1-4.json` | Lesson 1（Part1〜3・Goal Activity）のデータ |
+| `json/lesson2-1.json`〜`lesson2-3.json` | Lesson 2（Part1・Part2・Goal Activity）のデータ |
+| `json/lesson3-1.json`〜`lesson3-5.json` | Lesson 3（Introduction・Part1〜3・Goal Activity）のデータ |
 | `json/lesson-elementary.json` | 小学校のみのデータ |
 | `json/lesson曜日.json` | 曜日のみのデータ |
 | `json/lesson月.json` | 月のみのデータ |
@@ -84,8 +86,8 @@ pnpm run build
 
 ## 対象単語
 
-- Lesson 1〜3（NEW CROWN）
-- 小学校で習う基本英単語
+- Lesson 1〜3（NEW CROWN、各レッスンともPart単位でLesson1-1のように分割済み）
+- 小学校で習う基本英単語（カテゴリー: 人／動物／食べ物・飲み物／身の回りのもの①②／場所①②／自然／教科／スポーツ／その他いろいろな名詞①②③／状態や動作を表すことば①②③④／名詞をくわしくできることば①②③／動詞・形容詞をくわしくできることば）
 - 曜日（Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday）
 - 月（April, May, June, July）
 - 日にち（first, second, third, fourth）
