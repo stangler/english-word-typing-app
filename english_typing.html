@@ -137,6 +137,7 @@
     cursor:pointer;user-select:none;
   }
   .shuffle-toggle input{width:18px;height:18px;accent-color:var(--red);}
+  .history-screen{margin-bottom:24px;}
 
   .howto h2{margin:0 0 10px;font-size:1rem;}
   .howto ol{margin:0;padding-left:1.3em;font-size:.92rem;color:var(--ink-soft);}
@@ -386,7 +387,7 @@
       </div>
 
       <div class="panel howto">
-        <h2>つかいかた</h2>
+        <h2>使い方</h2>
         <ol>
           <li>レッスンを選ぶとテストが始まります。</li>
           <li>表示された「日本語の意味」に合う英単語・熟語を入力欄に入力します。</li>
@@ -463,9 +464,7 @@
         <button id="btn-history-back" class="btn-secondary">戻る</button>
       </div>
 
-      <div class="chart-container" id="chart-container">
-        <canvas id="history-chart"></canvas>
-      </div>
+      <div id="charts-container"></div>
 
       <div class="history-detail-list" id="history-detail-list"></div>
     </section>
@@ -536,9 +535,10 @@ function getLessonList(){
   const nums = lessons.filter(v => !specials.includes(v) && isSimpleNumber(v)).map(Number).sort((a,b)=>a-b);
   // Split lessons (1-1, 1-2, 1-3, 1-4) sorted by the number after the dash
   const splitLessons = lessons.filter(v => !specials.includes(v) && isSplitLesson(v)).sort((a,b)=>{
-    const aNum = parseInt(a.split('-')[1]);
-    const bNum = parseInt(b.split('-')[1]);
-    return aNum - bNum;
+    const [aLesson, aPart] = a.split('-').map(Number);
+    const [bLesson, bPart] = b.split('-').map(Number);
+    if (aLesson !== bLesson) return aLesson - bLesson;
+    return aPart - bPart;
   });
   const strLessons = lessons.filter(v => !specials.includes(v) && !isSimpleNumber(v) && !isSplitLesson(v) && v !== '').sort();
   return {nums, hasElem: lessons.includes('elementary'), strLessons, splitLessons};
@@ -619,7 +619,7 @@ function generateLessonButtons(){
     // Format as "Lesson1 Part1" instead of "Lesson 1-1"
     const lessonNum = lesson.split('-')[0];
     const partNum = lesson.split('-')[1];
-    const displayLabel = 'Lesson' + lessonNum + ' Part' + partNum;
+    const displayLabel = partNum === '4' ? 'Lesson' + lessonNum + ' Activity Goal' : 'Lesson' + lessonNum + ' Part' + partNum;
     btn.innerHTML = '<span class="lesson-no">' + displayLabel + '</span><span class="lesson-count">' + (counts[lesson] || 0) + '問</span>';
     btn.addEventListener('click', ()=> startQuiz(lesson));
     grid.appendChild(btn);
@@ -689,7 +689,9 @@ function startQuiz(lessonFilter){
   } else if(/^\d+-\d+$/.test(lessonFilter)){
     // Split lessons like "1-1", "1-2", "1-3"
     pool = WORDS.filter(w => String(w.lesson) === lessonFilter);
-    label = 'Lesson ' + lessonFilter;
+    const lessonNum = lessonFilter.split('-')[0];
+    const partNum = lessonFilter.split('-')[1];
+    label = partNum === '4' ? 'Lesson' + lessonNum + ' Activity Goal' : 'Lesson' + lessonNum + ' Part' + partNum;
   } else if(isNaN(Number(lessonFilter))){
     pool = WORDS.filter(w => String(w.lesson) === lessonFilter);
     label = lessonFilter;
@@ -720,7 +722,7 @@ function renderQuestion(){
   document.getElementById('score-correct').textContent = '◯' + state.score;
   document.getElementById('score-wrong').textContent = '✗' + state.wrong.length;
 
-  const showLessonNo = (state.lessonFilter === 'all' || state.lessonLabel === '復習');
+  const showLessonNo = (state.lessonFilter === 'all');
   const lessonNum = isNaN(Number(item.lesson)) ? item.lesson : 'Lesson ' + item.lesson;
   document.getElementById('tag-part').textContent = showLessonNo
     ? (lessonNum + ' ・ ' + partLabel(item.part, item.lesson))
@@ -849,7 +851,7 @@ document.getElementById('btn-retry-wrong').addEventListener('click', ()=>{
   if(shuffleCheck.checked) shuffleArray(pool);
   state = {
     queue: pool, index:0, score:0, wrong:[], answered:false,
-    lessonFilter: state.lessonFilter, lessonLabel: '復習'
+    lessonFilter: state.lessonFilter, lessonLabel: state.lessonLabel
   };
   showScreen('quiz');
   renderQuestion();
@@ -946,22 +948,55 @@ function showHistoryScreen(highlightIndex){
   showScreen('history');
   const history = getHistory();
   if(history.length === 0){
-    document.getElementById('chart-container').innerHTML = '<p class="chart-empty">履歴がありません</p>';
+    document.getElementById('charts-container').innerHTML = '<p class="chart-empty">履歴がありません</p>';
     document.getElementById('history-detail-list').innerHTML = '';
     return;
   }
-  // Restore chart container if it was replaced
-  const container = document.getElementById('chart-container');
-  if(!container.querySelector('canvas')){
-    container.innerHTML = '<canvas id="history-chart"></canvas>';
-  }
-  renderChart(history, highlightIndex);
+  renderPerLessonCharts(history, highlightIndex);
   renderHistoryDetailList(history, highlightIndex);
 }
 
-function renderChart(history, highlightIndex){
-  const canvas = document.getElementById('history-chart');
-  if(!canvas) return;
+function renderPerLessonCharts(history, highlightIndex){
+  const container = document.getElementById('charts-container');
+  container.innerHTML = '';
+
+  // Group history by lesson label
+  const groups = {};
+  history.forEach((entry, origIdx) => {
+    const lesson = entry.lesson;
+    if(!groups[lesson]) groups[lesson] = [];
+    groups[lesson].push({ entry, origIdx });
+  });
+
+  // Sort lesson names for consistent ordering
+  const lessonNames = Object.keys(groups).sort();
+
+  lessonNames.forEach(lessonName => {
+    const items = groups[lessonName];
+    // Sort by date (oldest first) for the chart
+    const sorted = items.slice().sort((a, b) => new Date(a.entry.date) - new Date(b.entry.date));
+
+    // Create wrapper
+    const wrapper = document.createElement('div');
+    wrapper.className = 'chart-container';
+
+    // Lesson header
+    const header = document.createElement('h3');
+    header.style.cssText = 'margin:0 0 12px;font-size:.95rem;font-weight:700;color:var(--ink);';
+    header.textContent = lessonName;
+    wrapper.appendChild(header);
+
+    // Canvas
+    const canvas = document.createElement('canvas');
+    wrapper.appendChild(canvas);
+    container.appendChild(wrapper);
+
+    // Draw chart on this canvas
+    drawSingleChart(canvas, sorted, highlightIndex);
+  });
+}
+
+function drawSingleChart(canvas, sorted, highlightIndex){
   const container = canvas.parentElement;
   const rect = container.getBoundingClientRect();
   const dpr = window.devicePixelRatio || 1;
@@ -973,10 +1008,6 @@ function renderChart(history, highlightIndex){
   canvas.style.height = h + 'px';
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
-
-  // Sort history by date (oldest first), keeping original index for highlight
-  const sorted = history.slice().map((entry, origIdx) => ({ entry, origIdx }))
-    .sort((a, b) => new Date(a.entry.date) - new Date(b.entry.date));
 
   const pad = { top: 20, right: 20, bottom: 40, left: 44 };
   const chartW = w - pad.left - pad.right;
