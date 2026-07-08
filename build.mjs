@@ -3,18 +3,40 @@ import fs from 'fs';
 import path from 'path';
 
 function convertWords(data, defaultLesson = '') {
-  return data.filter(row => row['英語'] && row['英語'].trim() !== '').map(row => ({
-    lesson: defaultLesson ? defaultLesson : (row['Lesson'] || ''),
-    part: String(row['Part'] || row['カテゴリー'] || ''),
-    en: row['英語'] || '',
-    answer: (row['英語'] || '').replace(/〜.*$/, ''),  // Remove 〜 and anything after for answer
-    ipa: row['発音'] || '',
-    pos: row['品詞'] || '',
-    ja: row['意味'] || row['日本語'] || '',
-    ex_en: row['英語例文'] || '',
-    ex_ja: row['日本語訳'] || '',
-    memo: row['なんでもメモ'] || '',
-  }));
+  return data.filter(row => row['英語'] && row['英語'].trim() !== '').map(row => {
+    let lesson = defaultLesson ? defaultLesson : (row['Lesson'] || '');
+    const part = String(row['Part'] || row['カテゴリー'] || '');
+    
+// Split Lesson 1 into 4 parts:
+// - Part 1 → Lesson 1-1
+// - Part 2 → Lesson 1-2
+// - Part 3 → Lesson 1-3
+// - Goal Activity → Lesson 1-4
+if (lesson === 1 || lesson === '1') {
+  if (part === '1') {
+    lesson = '1-1';
+  } else if (part === '2') {
+    lesson = '1-2';
+  } else if (part === '3') {
+    lesson = '1-3';
+  } else if (part === 'Goal Activity') {
+    lesson = '1-4';
+  }
+}
+    
+    return {
+      lesson: lesson,
+      part: part,
+      en: row['英語'] || '',
+      answer: (row['英語'] || '').replace(/〜.*$/, ''),  // Remove 〜 and anything after for answer
+      ipa: row['発音'] || '',
+      pos: row['品詞'] || '',
+      ja: row['意味'] || row['日本語'] || '',
+      ex_en: row['英語例文'] || '',
+      ex_ja: row['日本語訳'] || '',
+      memo: row['なんでもメモ'] || '',
+    };
+  });
 }
 
 // --- Process all xlsx files in xlsx/ directory ---
@@ -68,7 +90,15 @@ allWords.forEach(w => {
 });
 
 for (const [key, wordsList] of Object.entries(lessons)) {
-  const filename = key === 'elementary' ? 'lesson-elementary.json' : `lesson${key}.json`;
+  let filename;
+  if (key === 'elementary') {
+    filename = 'lesson-elementary.json';
+} else if (key.startsWith('1-')) {
+    // Handle split lessons like 1-1, 1-2, 1-3, 1-4
+    filename = `lesson${key}.json`;
+  } else {
+    filename = `lesson${key}.json`;
+  }
   fs.writeFileSync(`json/${filename}`, JSON.stringify(wordsList, null, 2));
   console.log(`Generated json/${filename} with ${wordsList.length} words`);
 }
