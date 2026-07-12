@@ -44,10 +44,7 @@ pnpm install
 | `xlsx/Lesson2.xlsx` | NEW CROWN Lesson 2 の単語データ |
 | `xlsx/Lesson3.xlsx` | NEW CROWN Lesson 3 の単語データ |
 | `xlsx/Lesson4.xlsx` | NEW CROWN Lesson 4 の単語データ |
-| `xlsx/小学校.xlsx` | 小学校の基本英単語（任意） |
-| `xlsx/曜日.xlsx` | 曜日の単語（任意） |
-| `xlsx/月.xlsx` | 月の単語（任意） |
-| `xlsx/日にち.xlsx` | 日にち（first〜fourth）の単語（任意） |
+| `xlsx/小学校.xlsx` | 小学校の基本英単語 |
 
 ```bash
 pnpm run build
