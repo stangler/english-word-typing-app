@@ -88,9 +88,6 @@ pnpm run build
   - Lesson 3: 3-1〜3-6（Introduction・Part1〜3・Goal Activity＋復習）
   - Lesson 4: 4-1〜4-6（Introduction・Part1〜4・Goal Activity＋復習）
 - 小学校で習う基本英単語（カテゴリー: 人／動物／食べ物・飲み物／身の回りのもの①②／場所①②／自然／教科／スポーツ／その他いろいろな名詞①②③／状態や動作を表すことば①②③④／名詞をくわしくできることば①②③／動詞・形容詞をくわしくできることば）
-- 曜日（Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday）
-- 月（April, May, June, July）
-- 日にち（first, second, third, fourth）
 
 ## 技術
 
