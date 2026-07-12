@@ -1,0 +1,110 @@
+[
+  {
+    "lesson": "1-3",
+    "part": "3",
+    "en": "rock",
+    "answer": "rock",
+    "ipa": "[rɑːk]",
+    "pos": "名",
+    "ja": "〈音楽の〉ロック",
+    "ex_en": "Do you know U2? The Irish rock band.",
+    "ex_ja": "U2って知ってる？ アイルランドのロックバンドの。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-3",
+    "part": "3",
+    "en": "action",
+    "answer": "action",
+    "ipa": "[ˈækʃən]",
+    "pos": "名",
+    "ja": "動作",
+    "ex_en": "\"Play\" is an action verb, and \"like\" is a state verb.",
+    "ex_ja": "「play」は動作動詞、「like」は状態動詞です。",
+    "memo": "動詞はact（行動する）"
+  },
+  {
+    "lesson": "1-3",
+    "part": "3",
+    "en": "anime",
+    "answer": "anime",
+    "ipa": "[ˈænəmi]",
+    "pos": "名",
+    "ja": "〈日本の〉アニメ",
+    "ex_en": "I love the main theme song of this anime.",
+    "ex_ja": "このアニメの主題歌がめっちゃ好き。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-3",
+    "part": "3",
+    "en": "manga",
+    "answer": "manga",
+    "ipa": "[ˈmæŋgə]",
+    "pos": "名",
+    "ja": "〈日本の〉マンガ",
+    "ex_en": "I really like this manga artist.",
+    "ex_ja": "この漫画家さんすごい好き。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-3",
+    "part": "3",
+    "en": "weekend",
+    "answer": "weekend",
+    "ipa": "[ˈwiːkend]",
+    "pos": "名",
+    "ja": "週末",
+    "ex_en": "Have a nice weekend. — Thanks. You too.",
+    "ex_ja": "よい週末を。 — ありがとう。きみもね。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-3",
+    "part": "3",
+    "en": "at home",
+    "answer": "at home",
+    "ipa": "[—]",
+    "pos": "句",
+    "ja": "家で[に]",
+    "ex_en": "Are you at home right now? — I am. What's up?",
+    "ex_ja": "今、家にいる？ — いるよ。どうしたの？",
+    "memo": ""
+  },
+  {
+    "lesson": "1-3",
+    "part": "3",
+    "en": "take a picture",
+    "answer": "take a picture",
+    "ipa": "[—]",
+    "pos": "句",
+    "ja": "写真を撮る",
+    "ex_en": "Can you take a picture of us?",
+    "ex_ja": "私たちの写真を1枚撮ってくれませんか？",
+    "memo": ""
+  },
+  {
+    "lesson": "1-3",
+    "part": "3",
+    "en": "look at 〜",
+    "answer": "look at ",
+    "ipa": "[—]",
+    "pos": "句",
+    "ja": "〜を見る",
+    "ex_en": "Okay, look at the blackboard.",
+    "ex_ja": "はいー、黒板見てー。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-3",
+    "part": "3",
+    "en": "pet",
+    "answer": "pet",
+    "ipa": "[pet]",
+    "pos": "名",
+    "ja": "ペット",
+    "ex_en": "I want to have a donkey as a pet.",
+    "ex_ja": "ペットにロバを飼いたいです。",
+    "memo": ""
+  }
+]

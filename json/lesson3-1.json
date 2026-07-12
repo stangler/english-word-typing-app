@@ -1,0 +1,26 @@
+[
+  {
+    "lesson": "3-1",
+    "part": "Introduction",
+    "en": "treasure",
+    "answer": "treasure",
+    "ipa": "[ˈtreʒər]",
+    "pos": "名",
+    "ja": "宝物",
+    "ex_en": "Life itself is a treasure.",
+    "ex_ja": "命どう宝。",
+    "memo": "沖縄のことば"
+  },
+  {
+    "lesson": "3-1",
+    "part": "Introduction",
+    "en": "camera",
+    "answer": "camera",
+    "ipa": "[ˈkæmərə]",
+    "pos": "名",
+    "ja": "カメラ",
+    "ex_en": "Look straight into the camera.",
+    "ex_ja": "カメラ目線でお願いします。",
+    "memo": ""
+  }
+]

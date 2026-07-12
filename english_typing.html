@@ -376,6 +376,7 @@
   .progress-badge.done{border-color:var(--green);}
   .progress-badge.todo{border-color:var(--line);color:var(--ink-soft);}
   .progress-badge .pb-pct{color:var(--green);font-weight:900;}
+  .progress-badge .pb-count{color:var(--blue);font-weight:800;font-size:.78rem;}
   .progress-badge .pb-status{color:var(--ink-soft);font-weight:700;font-size:.78rem;}
 
   @media (max-width:480px){
@@ -766,7 +767,7 @@ function generateLessonButtons(){
   allContainer.appendChild(btnAll);
 }
 
-function startQuiz(lessonFilter){
+function buildPool(lessonFilter){
   let pool;
   let label;
   const pipeIdx = lessonFilter.indexOf('|');
@@ -798,6 +799,11 @@ function startQuiz(lessonFilter){
     pool = WORDS.filter(w => String(w.lesson) === lessonFilter);
     label = 'Lesson ' + lessonFilter;
   }
+  return {pool, label};
+}
+
+function startQuiz(lessonFilter){
+  const {pool, label} = buildPool(lessonFilter);
   if(shuffleCheck.checked) shuffleArray(pool);
   state = {
     queue: pool,
@@ -855,6 +861,8 @@ function submitAnswer(){
   const item = state.queue[state.index];
   const userVal = inputEl.value;
   const isCorrect = normalize(userVal) !== '' && normalize(userVal) === normalize(item.answer);
+
+  markAttempted(item);
 
   if(isCorrect){
     state.score++;
@@ -999,7 +1007,35 @@ function deleteHistory(index){
 
 function clearHistory(){
   localStorage.removeItem(HISTORY_KEY);
+  localStorage.removeItem(ATTEMPTED_KEY);
   renderHistory();
+}
+
+/* ---- 出題済み問題の記録 (どの問題に「手を付けた」か) ---- */
+const ATTEMPTED_KEY = 'typingAttempted';
+
+function getWordKey(item){
+  return item.lesson + '||' + item.part + '||' + item.ja + '||' + item.answer;
+}
+
+function loadAttempted(){
+  try{
+    const raw = localStorage.getItem(ATTEMPTED_KEY);
+    return raw ? new Set(JSON.parse(raw)) : new Set();
+  }catch(e){
+    console.warn('進捗の読み込みに失敗しました:', e);
+    return new Set();
+  }
+}
+
+function markAttempted(item){
+  try{
+    const attempted = loadAttempted();
+    attempted.add(getWordKey(item));
+    localStorage.setItem(ATTEMPTED_KEY, JSON.stringify([...attempted]));
+  }catch(e){
+    console.warn('進捗の保存に失敗しました:', e);
+  }
 }
 
 function formatDate(isoString){
@@ -1128,6 +1164,7 @@ function renderProgress(history){
   const allLabel = allLessonLabel();
   const statuses = items.map(it => getItemStatus(it, history, allLabel));
   const doneCount = statuses.filter(s => s.done).length;
+  const attempted = loadAttempted();
 
   const summary = document.createElement('p');
   summary.className = 'progress-summary';
@@ -1153,9 +1190,14 @@ function renderProgress(history){
     groups[groupName].forEach(({item, status}) => {
       const badge = document.createElement('button');
       badge.className = 'progress-badge ' + (status.done ? 'done' : 'todo');
+
+      const {pool} = buildPool(item.filter);
+      const wTotal = pool.length;
+      const wDone = pool.filter(w => attempted.has(getWordKey(w))).length;
+
       badge.innerHTML = '<span class="pb-label">' + escapeHtml(item.badgeLabel) + '</span>' +
         (status.done
-          ? '<span class="pb-pct">' + status.latest.pct + '%</span>'
+          ? '<span class="pb-count">' + wDone + ' / ' + wTotal + '問</span><span class="pb-pct">' + status.latest.pct + '%</span>'
           : '<span class="pb-status">未着手</span>');
       badge.title = status.done
         ? '直近: ' + formatDate(status.latest.date) + '（' + status.count + '回挑戦）'

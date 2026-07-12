@@ -1,0 +1,50 @@
+[
+  {
+    "lesson": "1-1",
+    "part": "1",
+    "en": "Ms.",
+    "answer": "Ms.",
+    "ipa": "[mɪz]",
+    "pos": "名",
+    "ja": "〈女性に対して〉〜さん、〜先生",
+    "ex_en": "Ms. Nonaka! — Yes?",
+    "ex_ja": "野中先生！ — なんですか？",
+    "memo": ""
+  },
+  {
+    "lesson": "1-1",
+    "part": "1",
+    "en": "I'm",
+    "answer": "I'm",
+    "ipa": "[aɪm]",
+    "pos": "短",
+    "ja": "I am の短縮形",
+    "ex_en": "I'm hungry.",
+    "ex_ja": "おなかへった。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-1",
+    "part": "1",
+    "en": "often",
+    "answer": "often",
+    "ipa": "[ˈɔːfən]",
+    "pos": "副",
+    "ja": "よく",
+    "ex_en": "My brother often reads manga in the bathroom.",
+    "ex_ja": "うちの兄はよくトイレでマンガを読んでいます。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-1",
+    "part": "1",
+    "en": "be good at 〜",
+    "answer": "be good at ",
+    "ipa": "[—]",
+    "pos": "句",
+    "ja": "〜が上手である",
+    "ex_en": "Oh, you are good at drawing camels.",
+    "ex_ja": "わ、ラクダの絵描くの上手。",
+    "memo": ""
+  }
+]

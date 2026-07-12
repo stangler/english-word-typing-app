@@ -1,0 +1,98 @@
+[
+  {
+    "lesson": "3-2",
+    "part": "1",
+    "en": "open",
+    "answer": "open",
+    "ipa": "[ˈoʊpən]",
+    "pos": "動",
+    "ja": "開ける、開く",
+    "ex_en": "Please open and close the door quietly.",
+    "ex_ja": "ドアの開け閉めはお静かに。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-2",
+    "part": "1",
+    "en": "o'clock",
+    "answer": "o'clock",
+    "ipa": "[əˈklɑːk]",
+    "pos": "副",
+    "ja": "〜時",
+    "ex_en": "I have a reservation for 8 o'clock.",
+    "ex_ja": "8時に予約した者です。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-2",
+    "part": "1",
+    "en": "that's",
+    "answer": "that's",
+    "ipa": "[ðæts]",
+    "pos": "短",
+    "ja": "that is の短縮形",
+    "ex_en": "Hey! That's my ice cream!",
+    "ex_ja": "ちょっと！ それ私のアイス！",
+    "memo": ""
+  },
+  {
+    "lesson": "3-2",
+    "part": "1",
+    "en": "isn't",
+    "answer": "isn't",
+    "ipa": "[ˈɪznt]",
+    "pos": "短",
+    "ja": "is not の短縮形",
+    "ex_en": "That isn't a chair.",
+    "ex_ja": "それイスじゃないよ。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-2",
+    "part": "1",
+    "en": "we're",
+    "answer": "we're",
+    "ipa": "[wɪr]",
+    "pos": "短",
+    "ja": "we are の短縮形",
+    "ex_en": "Our ball hit your car. We're sorry.",
+    "ex_ja": "先生の車にボールをぶつけてしまいました。ごめんなさい。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-2",
+    "part": "1",
+    "en": "gate",
+    "answer": "gate",
+    "ipa": "[geɪt]",
+    "pos": "名",
+    "ja": "門",
+    "ex_en": "There's a tiny cat on top of the gate.",
+    "ex_ja": "門の上にちびねこがいる。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-2",
+    "part": "1",
+    "en": "scary",
+    "answer": "scary",
+    "ipa": "[ˈskeri]",
+    "pos": "形",
+    "ja": "こわい",
+    "ex_en": "The interviewer was so scary.",
+    "ex_ja": "面接官めっちゃこわかった。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-2",
+    "part": "1",
+    "en": "statue",
+    "answer": "statue",
+    "ipa": "[ˈstætʃuː]",
+    "pos": "名",
+    "ja": "像",
+    "ex_en": "A statue stands at the entrance of the school.",
+    "ex_ja": "学校の入り口に銅像が立っています。",
+    "memo": ""
+  }
+]

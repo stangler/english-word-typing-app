@@ -1,0 +1,98 @@
+[
+  {
+    "lesson": "1-2",
+    "part": "2",
+    "en": "fan",
+    "answer": "fan",
+    "ipa": "[fæn]",
+    "pos": "名",
+    "ja": "ファン",
+    "ex_en": "I'm not a fan of soccer.",
+    "ex_ja": "サッカーは好きじゃないの。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-2",
+    "part": "2",
+    "en": "every",
+    "answer": "every",
+    "ipa": "[ˈevri]",
+    "pos": "形",
+    "ja": "どの〜も、毎〜",
+    "ex_en": "Gah, every unit has new words to learn.",
+    "ex_ja": "もー、どの単元にも新出単語があるー。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-2",
+    "part": "2",
+    "en": "every day",
+    "answer": "every day",
+    "ipa": "[—]",
+    "pos": "句",
+    "ja": "毎日",
+    "ex_en": "Do 50 sit-ups every day!",
+    "ex_ja": "毎日腹筋50回だ！",
+    "memo": ""
+  },
+  {
+    "lesson": "1-2",
+    "part": "2",
+    "en": "don't",
+    "answer": "don't",
+    "ipa": "[doʊnt]",
+    "pos": "短",
+    "ja": "do not の短縮形",
+    "ex_en": "Oh, don't open that! — Why?",
+    "ex_ja": "あ、それ開けちゃだめ！ — なんで？",
+    "memo": ""
+  },
+  {
+    "lesson": "1-2",
+    "part": "2",
+    "en": "after",
+    "answer": "after",
+    "ipa": "[ˈæftər]",
+    "pos": "前",
+    "ja": "〜のあとに",
+    "ex_en": "Please leave your message after the beep.",
+    "ex_ja": "発信音のあとにメッセージをどうぞ。",
+    "memo": "反対はbefore（～の前に）"
+  },
+  {
+    "lesson": "1-2",
+    "part": "2",
+    "en": "after school",
+    "answer": "after school",
+    "ipa": "[—]",
+    "pos": "句",
+    "ja": "放課後",
+    "ex_en": "I practice tennis almost every day after school.",
+    "ex_ja": "放課後はほとんど毎日テニスを練習しています。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-2",
+    "part": "2",
+    "en": "hip-hop",
+    "answer": "hip-hop",
+    "ipa": "[ˈhɪp hɑːp]",
+    "pos": "名",
+    "ja": "〈音楽の〉ヒップホップ",
+    "ex_en": "I sometimes listen to hip-hop, too.",
+    "ex_ja": "ヒップホップもたまに聞くよ。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-2",
+    "part": "2",
+    "en": "dancer",
+    "answer": "dancer",
+    "ipa": "[ˈdænsər]",
+    "pos": "名",
+    "ja": "踊る人",
+    "ex_en": "This actor is a good singer and dancer.",
+    "ex_ja": "この俳優さん歌もダンスもうまいよね。",
+    "memo": ""
+  }
+]

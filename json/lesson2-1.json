@@ -1,0 +1,110 @@
+[
+  {
+    "lesson": "2-1",
+    "part": "1",
+    "en": "firefighter",
+    "answer": "firefighter",
+    "ipa": "[ˈfaɪərfaɪtər]",
+    "pos": "名",
+    "ja": "消防士",
+    "ex_en": "I wanted to be a firefighter when I was little.",
+    "ex_ja": "小さいときは消防士になりたかったんだよね。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-1",
+    "part": "1",
+    "en": "smile",
+    "answer": "smile",
+    "ipa": "[smaɪl]",
+    "pos": "名",
+    "ja": "微笑み",
+    "ex_en": "She gave me the okay with a smile!",
+    "ex_ja": "笑顔でオッケーくれた！",
+    "memo": ""
+  },
+  {
+    "lesson": "2-1",
+    "part": "1",
+    "en": "skateboard",
+    "answer": "skateboard",
+    "ipa": "[ˈskeɪtbɔːrd]",
+    "pos": "動",
+    "ja": "スケートボードをする",
+    "ex_en": "Can you skateboard or snowboard?",
+    "ex_ja": "スケボとかスノボとかできる？",
+    "memo": ""
+  },
+  {
+    "lesson": "2-1",
+    "part": "1",
+    "en": "she's",
+    "answer": "she's",
+    "ipa": "[ʃiːz]",
+    "pos": "短",
+    "ja": "she is の短縮形",
+    "ex_en": "I invited Yui, but she's busy.",
+    "ex_ja": "ユイ誘ったんだけど、忙しいって。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-1",
+    "part": "1",
+    "en": "popular",
+    "answer": "popular",
+    "ipa": "[ˈpɑːpjələr]",
+    "pos": "形",
+    "ja": "人気のある",
+    "ex_en": "What songs are popular right now?",
+    "ex_ja": "今どんな歌が人気なの？",
+    "memo": ""
+  },
+  {
+    "lesson": "2-1",
+    "part": "1",
+    "en": "her",
+    "answer": "her",
+    "ipa": "[hɜːr]",
+    "pos": "代",
+    "ja": "彼女の",
+    "ex_en": "Mayumi looks a lot like her sister.",
+    "ex_ja": "マユミはお姉ちゃんとよく似てる。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-1",
+    "part": "1",
+    "en": "powerful",
+    "answer": "powerful",
+    "ipa": "[ˈpaʊərfl]",
+    "pos": "形",
+    "ja": "力強い",
+    "ex_en": "Wow, this hair dryer is too powerful!",
+    "ex_ja": "わっ、このドライヤーめっちゃ強力！",
+    "memo": ""
+  },
+  {
+    "lesson": "2-1",
+    "part": "1",
+    "en": "voice",
+    "answer": "voice",
+    "ipa": "[vɔɪs]",
+    "pos": "名",
+    "ja": "声",
+    "ex_en": "His voice sounds like someone’s.",
+    "ex_ja": "彼の声、だれかの声に似てる。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-1",
+    "part": "1",
+    "en": "it's",
+    "answer": "it's",
+    "ipa": "[ɪts]",
+    "pos": "短",
+    "ja": "it is の短縮形",
+    "ex_en": "Be careful. It’s hot.",
+    "ex_ja": "気をつけて。熱いよ。",
+    "memo": ""
+  }
+]

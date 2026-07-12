@@ -1,0 +1,74 @@
+[
+  {
+    "lesson": "3-4",
+    "part": "3",
+    "en": "who's",
+    "answer": "who's",
+    "ipa": "[huːz]",
+    "pos": "短",
+    "ja": "who is の短縮形",
+    "ex_en": "Who's this on the right? — A yoga friend.",
+    "ex_ja": "この右側の人だれ？ — ヨガ友達だよ。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-4",
+    "part": "3",
+    "en": "character",
+    "answer": "character",
+    "ipa": "[ˈkærəktər]",
+    "pos": "名",
+    "ja": "性格、登場人物",
+    "ex_en": "All the characters are bad people.",
+    "ex_ja": "登場人物全員悪い人じゃん。",
+    "memo": "characterはアクセントの位置に注意"
+  },
+  {
+    "lesson": "3-4",
+    "part": "3",
+    "en": "him",
+    "answer": "him",
+    "ipa": "[hɪm]",
+    "pos": "代",
+    "ja": "彼を [に]",
+    "ex_en": "Give this to him. — Who's 'him'?",
+    "ex_ja": "これ、彼に渡して。 — 彼って？",
+    "memo": ""
+  },
+  {
+    "lesson": "3-4",
+    "part": "3",
+    "en": "very much",
+    "answer": "very much",
+    "ipa": "[—]",
+    "pos": "句",
+    "ja": "とても",
+    "ex_en": "I like the feel of my cat very much.",
+    "ex_ja": "うちのネコの触り心地がすごく好き。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-4",
+    "part": "3",
+    "en": "nickname",
+    "answer": "nickname",
+    "ipa": "[ˈnɪkneɪm]",
+    "pos": "名",
+    "ja": "ニックネーム、あだ名",
+    "ex_en": "Penny is a nickname for one cent coins.",
+    "ex_ja": "ペニーは1セント硬貨のニックネームです。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-4",
+    "part": "3",
+    "en": "idea",
+    "answer": "idea",
+    "ipa": "[aɪˈdiːə]",
+    "pos": "名",
+    "ja": "考え、案",
+    "ex_en": "I have a good idea.",
+    "ex_ja": "いいこと思いついた。",
+    "memo": ""
+  }
+]

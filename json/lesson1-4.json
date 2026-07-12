@@ -1,0 +1,38 @@
+[
+  {
+    "lesson": "1-4",
+    "part": "Goal Activity",
+    "en": "love",
+    "answer": "love",
+    "ipa": "[lʌv]",
+    "pos": "動",
+    "ja": "愛する",
+    "ex_en": "I love boiled eggs.",
+    "ex_ja": "ゆで卵大好き。",
+    "memo": ""
+  },
+  {
+    "lesson": "1-4",
+    "part": "Goal Activity",
+    "en": "flavor",
+    "answer": "flavor",
+    "ipa": "[ˈfleɪvər]",
+    "pos": "名",
+    "ja": "風味",
+    "ex_en": "What flavor is that? — It's rum raisin.",
+    "ex_ja": "それ何味？ — ラムレーズン。",
+    "memo": "動詞もflavor（風味をつける）"
+  },
+  {
+    "lesson": "1-4",
+    "part": "Goal Activity",
+    "en": "tablet",
+    "answer": "tablet",
+    "ipa": "[ˈtæblət]",
+    "pos": "名",
+    "ja": "平板、タブレット",
+    "ex_en": "Oh, I forgot to charge my tablet again.",
+    "ex_ja": "あー、またタブレット充電するの忘れてた。",
+    "memo": ""
+  }
+]

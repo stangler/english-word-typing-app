@@ -1,0 +1,98 @@
+[
+  {
+    "lesson": "2-2",
+    "part": "2",
+    "en": "cannot",
+    "answer": "cannot",
+    "ipa": "[kænɑːt]",
+    "pos": "否",
+    "ja": "can の否定形",
+    "ex_en": "Warning: You cannot access this site right now.",
+    "ex_ja": "警告：このサイトにはただいまアクセスできません。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-2",
+    "part": "2",
+    "en": "can't",
+    "answer": "can't",
+    "ipa": "[kænt]",
+    "pos": "短",
+    "ja": "cannot の短縮形",
+    "ex_en": "No, no, no, no, I can’t sing in front of people.",
+    "ex_ja": "いやいやいやいや、人前では歌えないって。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-2",
+    "part": "2",
+    "en": "teach",
+    "answer": "teach",
+    "ipa": "[tiːtʃ]",
+    "pos": "動",
+    "ja": "教える",
+    "ex_en": "Can you teach me this? — All right.",
+    "ex_ja": "ここ教えて。 — いいよ。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-2",
+    "part": "2",
+    "en": "sure",
+    "answer": "sure",
+    "ipa": "[ʃʊr]",
+    "pos": "副",
+    "ja": "もちろん",
+    "ex_en": "Can I come with you? — Sure.",
+    "ex_ja": "おれもいっしょに行っていい？ — いいよ。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-2",
+    "part": "2",
+    "en": "piece",
+    "answer": "piece",
+    "ipa": "[piːs]",
+    "pos": "名",
+    "ja": "1つのかけら、〈将棋などの〉駒",
+    "ex_en": "The last piece of the puzzle is missing.",
+    "ex_ja": "パズルの最後のピースがどっかいった。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-2",
+    "part": "2",
+    "en": "move",
+    "answer": "move",
+    "ipa": "[muːv]",
+    "pos": "動",
+    "ja": "動かす、動く",
+    "ex_en": "I can’t move my shoulder right now.",
+    "ex_ja": "今は肩を動かせません。",
+    "memo": "名詞はmovement（動き）"
+  },
+  {
+    "lesson": "2-2",
+    "part": "2",
+    "en": "space",
+    "answer": "space",
+    "ipa": "[speɪs]",
+    "pos": "名",
+    "ja": "空間",
+    "ex_en": "You don’t put spaces between words in Japanese.",
+    "ex_ja": "日本語では単語と単語の間にスペースを入れません。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-2",
+    "part": "2",
+    "en": "forward",
+    "answer": "forward",
+    "ipa": "[ˈfɔːrwərd]",
+    "pos": "副",
+    "ja": "前へ",
+    "ex_en": "Can we move the desk forward a little?",
+    "ex_ja": "机を少し前に動かしてもいい？",
+    "memo": ""
+  }
+]

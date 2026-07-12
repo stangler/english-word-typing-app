@@ -1,0 +1,110 @@
+[
+  {
+    "lesson": "4-5",
+    "part": "Take Action! Listen 1",
+    "en": "topping",
+    "answer": "topping",
+    "ipa": "[ˈtɑːpɪŋ]",
+    "pos": "名",
+    "ja": "上に乗せるもの",
+    "ex_en": "Could you add a soft-boiled egg as a topping?",
+    "ex_ja": "トッピングで半熟卵をお願いできますか？",
+    "memo": ""
+  },
+  {
+    "lesson": "4-5",
+    "part": "Take Action! Listen 1",
+    "en": "boiled",
+    "answer": "boiled",
+    "ipa": "[bɔɪld]",
+    "pos": "形",
+    "ja": "ゆでた",
+    "ex_en": "Do you want some boiled broccoli?",
+    "ex_ja": "ゆでブロッコリー食べる？",
+    "memo": "動詞は boil(ゆでる)"
+  },
+  {
+    "lesson": "4-5",
+    "part": "Take Action! Listen 1",
+    "en": "boiled egg",
+    "answer": "boiled egg",
+    "ipa": "[bɔɪld eg]",
+    "pos": "名",
+    "ja": "ゆで卵",
+    "ex_en": "The boiled egg exploded in the microwave.",
+    "ex_ja": "ゆで卵が電子レンジで爆発した。",
+    "memo": ""
+  },
+  {
+    "lesson": "4-5",
+    "part": "Take Action! Listen 1",
+    "en": "garlic",
+    "answer": "garlic",
+    "ipa": "[ˈɡɑːrlɪk]",
+    "pos": "名",
+    "ja": "にんにく",
+    "ex_en": "Now my hands smell like garlic.",
+    "ex_ja": "手がにんにくの臭いになっちゃった。",
+    "memo": ""
+  },
+  {
+    "lesson": "4-5",
+    "part": "Take Action! Listen 1",
+    "en": "fried garlic",
+    "answer": "fried garlic",
+    "ipa": "[fraɪd ˈɡɑːrlɪk]",
+    "pos": "名",
+    "ja": "揚げたにんにく",
+    "ex_en": "Without fried garlic, please.",
+    "ex_ja": "揚げにんにくは抜きでお願いします。",
+    "memo": ""
+  },
+  {
+    "lesson": "4-5",
+    "part": "Take Action! Listen 1",
+    "en": "dollar",
+    "answer": "dollar",
+    "ipa": "[ˈdɑːlər]",
+    "pos": "名",
+    "ja": "〈貨幣の単位〉ドル",
+    "ex_en": "Oh, there’s a dollar store over there.",
+    "ex_ja": "あ、あそこ！ ドルショップがある。",
+    "memo": ""
+  },
+  {
+    "lesson": "4-5",
+    "part": "Take Action! Listen 1",
+    "en": "free",
+    "answer": "free",
+    "ipa": "[friː]",
+    "pos": "形",
+    "ja": "空いた、自由な、無料の",
+    "ex_en": "Is this seat free? — Yes, go ahead.",
+    "ex_ja": "この席あいてますか？ — はい、どうぞ。",
+    "memo": ""
+  },
+  {
+    "lesson": "4-5",
+    "part": "Take Action! Listen 1",
+    "en": "shrimp",
+    "answer": "shrimp",
+    "ipa": "[ʃrɪmp]",
+    "pos": "名",
+    "ja": "小エビ",
+    "ex_en": "Do you like shrimp?",
+    "ex_ja": "エビ好き？",
+    "memo": ""
+  },
+  {
+    "lesson": "4-5",
+    "part": "Take Action! Listen 1",
+    "en": "mixed",
+    "answer": "mixed",
+    "ipa": "[mɪkst]",
+    "pos": "形",
+    "ja": "混ざった",
+    "ex_en": "This is Osaka’s famous mixed juice.",
+    "ex_ja": "これが大阪名物ミックスジュースです。",
+    "memo": "動詞は mix(混ぜる)"
+  }
+]

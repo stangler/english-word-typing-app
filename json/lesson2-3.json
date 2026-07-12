@@ -1,0 +1,62 @@
+[
+  {
+    "lesson": "2-3",
+    "part": "Goal Activity",
+    "en": "he's",
+    "answer": "he's",
+    "ipa": "[hiːz]",
+    "pos": "短",
+    "ja": "he is の短縮形",
+    "ex_en": "Where’s Mr. Morita? — He’s off today.",
+    "ex_ja": "森田先生はどちらですか？ — 今日はお休みですよ。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-3",
+    "part": "Goal Activity",
+    "en": "uncle",
+    "answer": "uncle",
+    "ipa": "[ˈʌŋkl]",
+    "pos": "名",
+    "ja": "おじ",
+    "ex_en": "My sister had a baby, so now I’m an uncle.",
+    "ex_ja": "姉ちゃんに子どもが生まれたの、だからぼくはもうおじ。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-3",
+    "part": "Goal Activity",
+    "en": "language",
+    "answer": "language",
+    "ipa": "[ˈlæŋgwɪdʒ]",
+    "pos": "名",
+    "ja": "言語",
+    "ex_en": "Why do over 7,000 languages exist?",
+    "ex_ja": "なんで7,000以上も言語が存在するの？",
+    "memo": ""
+  },
+  {
+    "lesson": "2-3",
+    "part": "Goal Activity",
+    "en": "his",
+    "answer": "his",
+    "ipa": "[hɪz]",
+    "pos": "代",
+    "ja": "彼の",
+    "ex_en": "He is so good. I want to have his talent.",
+    "ex_ja": "あいつめっちゃ上手いな。あいつの才能がほしい。",
+    "memo": ""
+  },
+  {
+    "lesson": "2-3",
+    "part": "Goal Activity",
+    "en": "Chinese",
+    "answer": "Chinese",
+    "ipa": "[ˌtʃaɪˈniːz]",
+    "pos": "名",
+    "ja": "中国語",
+    "ex_en": "I want to be able to speak Chinese.",
+    "ex_ja": "中国語話せるようになりたいな。",
+    "memo": ""
+  }
+]

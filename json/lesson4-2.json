@@ -1,0 +1,98 @@
+[
+  {
+    "lesson": "4-2",
+    "part": "1",
+    "en": "myself",
+    "answer": "myself",
+    "ipa": "[maɪˈself]",
+    "pos": "代",
+    "ja": "自分自身",
+    "ex_en": "This is a treat for myself.",
+    "ex_ja": "これは自分へのごほうび。",
+    "memo": ""
+  },
+  {
+    "lesson": "4-2",
+    "part": "1",
+    "en": "last",
+    "answer": "last",
+    "ipa": "[læst]",
+    "pos": "形",
+    "ja": "最後の、この前の",
+    "ex_en": "Aww. The last scene was too heartbreaking.",
+    "ex_ja": "ああー。最後のシーンがつらすぎた。",
+    "memo": "反対は first(最初の)"
+  },
+  {
+    "lesson": "4-2",
+    "part": "1",
+    "en": "Mt.",
+    "answer": "Mt.",
+    "ipa": "[maʊnt]",
+    "pos": "名",
+    "ja": "〜山",
+    "ex_en": "Oh, I can see Mt. Fuji!",
+    "ex_ja": "あ、富士山見えた！",
+    "memo": "Mr.(男性への敬称) と混同しないように"
+  },
+  {
+    "lesson": "4-2",
+    "part": "1",
+    "en": "view",
+    "answer": "view",
+    "ipa": "[vjuː]",
+    "pos": "名",
+    "ja": "眺め",
+    "ex_en": "The best view comes after the hardest climb.",
+    "ex_ja": "最高の景色は、苦労して山を登った先にあるのです。",
+    "memo": ""
+  },
+  {
+    "lesson": "4-2",
+    "part": "1",
+    "en": "top",
+    "answer": "top",
+    "ipa": "[tɑːp]",
+    "pos": "名",
+    "ja": "いちばん上の部分",
+    "ex_en": "The can opener is in the top drawer.",
+    "ex_ja": "缶切りはいちばん上の引き出しにあります。",
+    "memo": ""
+  },
+  {
+    "lesson": "4-2",
+    "part": "1",
+    "en": "thick",
+    "answer": "thick",
+    "ipa": "[θɪk]",
+    "pos": "形",
+    "ja": "厚い、太い、濃い",
+    "ex_en": "The soup is so thick.",
+    "ex_ja": "スープが濃厚。",
+    "memo": "反対は thin(薄い、細い)"
+  },
+  {
+    "lesson": "4-2",
+    "part": "1",
+    "en": "so",
+    "answer": "so",
+    "ipa": "[soʊ]",
+    "pos": "副",
+    "ja": "とても",
+    "ex_en": "My dog is so fluffy.",
+    "ex_ja": "うちの犬はとてもモコモコです。",
+    "memo": "so is very より カジュアルだし感情入り"
+  },
+  {
+    "lesson": "4-2",
+    "part": "1",
+    "en": "also",
+    "answer": "also",
+    "ipa": "[ˈɔːlsoʊ]",
+    "pos": "副",
+    "ja": "〜もまた",
+    "ex_en": "I like manga, and I also like drawing.",
+    "ex_ja": "ぼくは漫画が好きで、絵を描くのも好きです。",
+    "memo": "too のほうが カジュアルな響き"
+  }
+]

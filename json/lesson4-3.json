@@ -1,0 +1,74 @@
+[
+  {
+    "lesson": "4-3",
+    "part": "2",
+    "en": "Mr.",
+    "answer": "Mr.",
+    "ipa": "[ˈmɪstər]",
+    "pos": "名",
+    "ja": "〈男性に対して〉〜さん、〜先生",
+    "ex_en": "Mr. Tanaka, please return to the teachers’ room.",
+    "ex_ja": "田中先生、職員室へお戻りください。",
+    "memo": ""
+  },
+  {
+    "lesson": "4-3",
+    "part": "2",
+    "en": "Korean",
+    "answer": "Korean",
+    "ipa": "[kəˈriːən]",
+    "pos": "形",
+    "ja": "韓国の",
+    "ex_en": "This Korean movie really hits home.",
+    "ex_ja": "この韓国映画、めっちゃ刺さります。",
+    "memo": "名詞は Korea(韓国)"
+  },
+  {
+    "lesson": "4-3",
+    "part": "2",
+    "en": "hometown",
+    "answer": "hometown",
+    "ipa": "[ˈhoʊmtaʊn]",
+    "pos": "名",
+    "ja": "故郷",
+    "ex_en": "My hometown is also along the coast, like here.",
+    "ex_ja": "私の故郷の町も、ここみたいに海沿いです。",
+    "memo": ""
+  },
+  {
+    "lesson": "4-3",
+    "part": "2",
+    "en": "baby",
+    "answer": "baby",
+    "ipa": "[ˈbeɪbi]",
+    "pos": "名",
+    "ja": "赤ちゃん",
+    "ex_en": "Look, a baby crab.",
+    "ex_ja": "見て、カニの赤ちゃん。",
+    "memo": ""
+  },
+  {
+    "lesson": "4-3",
+    "part": "2",
+    "en": "cousin",
+    "answer": "cousin",
+    "ipa": "[ˈkʌzən]",
+    "pos": "名",
+    "ja": "いとこ",
+    "ex_en": "Oh, does GariGari-kun have a cousin?",
+    "ex_ja": "え、ガリガリ君っていとこがいるの？",
+    "memo": ""
+  },
+  {
+    "lesson": "4-3",
+    "part": "2",
+    "en": "cream cheese",
+    "answer": "cream cheese",
+    "ipa": "[kriːm tʃiːz]",
+    "pos": "名",
+    "ja": "クリームチーズ",
+    "ex_en": "With extra cream cheese, please.",
+    "ex_ja": "クリームチーズたっぷりめでお願いします。",
+    "memo": ""
+  }
+]

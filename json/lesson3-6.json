@@ -1,0 +1,98 @@
+[
+  {
+    "lesson": "3-6",
+    "part": "Take Action! Talk 1",
+    "en": "man",
+    "answer": "man",
+    "ipa": "[mæn]",
+    "pos": "名",
+    "ja": "男性",
+    "ex_en": "Who is that man in a pink suit?",
+    "ex_ja": "あのピンクのスーツ着た男の人はだれ？",
+    "memo": ""
+  },
+  {
+    "lesson": "3-6",
+    "part": "Take Action! Talk 1",
+    "en": "men",
+    "answer": "men",
+    "ipa": "[men]",
+    "pos": "名",
+    "ja": "man の複数形",
+    "ex_en": "The main characters are three old men.",
+    "ex_ja": "主人公は3人のおじさんです。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-6",
+    "part": "Take Action! Talk 1",
+    "en": "excuse",
+    "answer": "excuse",
+    "ipa": "[ɪkˈskjuːz]",
+    "pos": "動",
+    "ja": "許す",
+    "ex_en": "Please excuse my bad handwriting.",
+    "ex_ja": "字が汚くてごめんなさい。",
+    "memo": "名詞も excuse (言い訳)"
+  },
+  {
+    "lesson": "3-6",
+    "part": "Take Action! Talk 1",
+    "en": "get to ~",
+    "answer": "get to ~",
+    "ipa": "[—]",
+    "pos": "句",
+    "ja": "〜に着く",
+    "ex_en": "I usually get to school at 8:10.",
+    "ex_ja": "私はふだん 8時10分に学校に着きます。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-6",
+    "part": "Take Action! Talk 1",
+    "en": "then",
+    "answer": "then",
+    "ipa": "[ðen]",
+    "pos": "副",
+    "ja": "それから",
+    "ex_en": "I ate potato chips, and then I did my homework.",
+    "ex_ja": "ポテチを食べて、それから宿題をやりました。",
+    "memo": ""
+  },
+  {
+    "lesson": "3-6",
+    "part": "Take Action! Talk 1",
+    "en": "corner",
+    "answer": "corner",
+    "ipa": "[ˈkɔːrnər]",
+    "pos": "名",
+    "ja": "角、曲がり角",
+    "ex_en": "Which corner do we turn at?",
+    "ex_ja": "どの角を曲がるんだっけ？",
+    "memo": ""
+  },
+  {
+    "lesson": "3-6",
+    "part": "Take Action! Talk 1",
+    "en": "Thank you.",
+    "answer": "Thank you.",
+    "ipa": "[—]",
+    "pos": "句",
+    "ja": "ありがとう。",
+    "ex_en": "Thank you, stranger!",
+    "ex_ja": "だれかわからないけど、ありがとう！",
+    "memo": ""
+  },
+  {
+    "lesson": "3-6",
+    "part": "Take Action! Talk 1",
+    "en": "where's",
+    "answer": "where's",
+    "ipa": "[werz]",
+    "pos": "短",
+    "ja": "where is の短縮形",
+    "ex_en": "Where's the can opener?",
+    "ex_ja": "缶切りはどこですか？",
+    "memo": ""
+  }
+]
